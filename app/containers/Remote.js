@@ -4,6 +4,7 @@ import global from '../styles/global'
 import Button from '../components/Button'
 import RunZoneModal from '../components/RunZoneModal'
 import Header from '../components/Header'
+import ZoneList from '../components/ZoneList'
 
 let dataBlob = [
   {
@@ -240,19 +241,21 @@ export const Remote = React.createClass({
             />
         </View>
 
-        <ListView
-          style={ local.zoneList }
-          dataSource={ this.state.data }
+        <ZoneList
+          style={ { flex: 1 }}
+          dataSource={ this.state.data}
+          onZoneSelect={ this.handleZoneSelect }
+          data={ this.state.data }
           renderRow={ this.renderRow }
-        />
+          />
 
         <RunZoneModal
-        modalVisible={ this.state.modalVisible }
-        selectedValue={ this.state.selectedTime }
-        onValueChange={ (value) => this.setState({ selectedTime: value }) }
-        runZones={ this.runZones }
-        cancelRun={ this.cancelRun}
-        />
+          modalVisible={ this.state.modalVisible }
+          selectedValue={ this.state.selectedTime }
+          onValueChange={ (value) => this.setState({ selectedTime: value }) }
+          runZones={ this.runZones }
+          cancelRun={ this.cancelRun}
+          />
 
       </View>
 

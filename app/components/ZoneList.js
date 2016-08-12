@@ -1,26 +1,15 @@
 import React from 'react'
-import { ListView } from 'react-native'
+import { ListView, TouchableHighlight, Text, View, StyleSheet } from 'react-native'
 const pt = React.PropTypes
 
-export default ZoneLine = React.createClass({
+export default ZoneList = React.createClass({
   PropTypes: {
 
-  },
-  getInitialState: {
-    let ds = new ListView.DataSource({ rowHasChanged: (r1,r2) => r1 !== r2 })
-    return {
-      data: ds.cloneWithRows([])
-    }
-  },
-  componentDidMount(){
-    this.setState({
-      data: this.state.data.cloneWithRows(this.state.dataBlob)
-    })
   },
   setRowStyle(rowData){
 
     style = [ local.rowContainer ]
-    let lastRow = this.state.data.getRowData(0, this.state.data.getRowCount() - 1)
+    let lastRow = this.props.data.getRowData(0, this.props.data.getRowCount() - 1)
     if( rowData.name !== lastRow.name ){
       style.push(local.rowDivider)
     }
@@ -33,11 +22,10 @@ export default ZoneLine = React.createClass({
     return style
 
   },
-  
   renderRow(rowData, sectionID, rowID, highlightRow){
     return (
 
-      <TouchableHighlight onPress={ () => this.handleZoneSelect(rowData, sectionID, rowID) } underlayColor={"lightgrey"}>
+      <TouchableHighlight onPress={ () => this.props.onZoneSelect(rowData, sectionID, rowID) } underlayColor={"lightgrey"}>
         <View
           style={ this.setRowStyle(rowData) }
           >
@@ -50,11 +38,35 @@ export default ZoneLine = React.createClass({
   },
   render(){
     return(
+
       <ListView
-        style={ { flex:1 } }
-        dataSource={ this.state.data }
+        style={ { flex: 1 } }
+        dataSource={ this.props.data }
         renderRow={ this.renderRow }
         />
+
     )
+  }
+})
+
+const local = StyleSheet.create({
+  rowContainer: {
+    padding: 20,
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  rowDivider: {
+    borderBottomWidth: .5,
+    borderColor: "#B0BEC5"
+  },
+  rowSelected: {
+    backgroundColor: "lightyellow"
+  },
+  rowRunning: {
+    backgroundColor: "lightblue"
+  },
+  zoneRunningText: {
+    color: "blue",
+    fontSize: 8
   }
 })
