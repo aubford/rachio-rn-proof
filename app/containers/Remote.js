@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, ListView, TouchableHighlight, Modal, Picker } from 'react-native'
-
+import { View, Text, StyleSheet, ListView, TouchableHighlight, Modal, Picker, Platform } from 'react-native'
+import global from '../styles/global'
+import Button from '../components/Button'
+import RunZoneModal from '../components/RunZoneModal'
+import Header from '../components/Header'
 
 let dataBlob = [
   {
@@ -75,9 +78,9 @@ let dataBlob = [
   }
 ]
 
-
 export const Remote = React.createClass({
   getInitialState(){
+
     let ds = new ListView.DataSource({ rowHasChanged: (r1,r2) => r1 !== r2 })
     return {
       dataBlob: dataBlob,
@@ -85,29 +88,33 @@ export const Remote = React.createClass({
       modalVisible: false,
       selectedTime: 1
     }
+
   },
   componentDidMount(){
+
     this.setState({
       data: this.state.data.cloneWithRows(this.state.dataBlob)
     })
+
   },
   setRowStyle(rowData){
 
-    style = [ styles.rowContainer ]
+    style = [ local.rowContainer ]
     let lastRow = this.state.data.getRowData(0, this.state.data.getRowCount() - 1)
     if( rowData.name !== lastRow.name ){
-      style.push(styles.rowDivider)
+      style.push(local.rowDivider)
     }
     if (rowData.selected === true){
-      style.push(styles.rowSelected)
+      style.push(local.rowSelected)
     }
-    else if (rowData.running === true){
-      style.push(styles.rowRunning)
+    else if (rowData.running.state === true){
+      style.push(local.rowRunning)
     }
     return style
 
   },
   handleZoneSelect(rowData, sectionID, rowID){
+
     let index = Number(rowID)
     let data = this.state.dataBlob.slice()
 
@@ -123,24 +130,30 @@ export const Remote = React.createClass({
 
   },
   renderRow(rowData, sectionID, rowID, highlightRow){
+
     return (
       <TouchableHighlight onPress={ () => this.handleZoneSelect(rowData, sectionID, rowID) } underlayColor={"lightgrey"}>
         <View
           style={ this.setRowStyle(rowData) }
           >
           <Text> { rowData.name } </Text>
-          {rowData.running && <Text style={styles.zoneRunningText}> Zone Running </Text>}
+          { rowData.running.state && <Text style={local.zoneRunningText}> Zone Running </Text> }
         </View>
       </TouchableHighlight>
     )
+
   },
   handleRunSelectedZones(){
+
     this.setState({
       modalVisible: true
     })
+
   },
   handleSelectAll(){
+
     let data = this.state.dataBlob.slice()
+
     data.forEach(function(zone, index){
       data[index] = { ...zone, selected: true }
     })
@@ -149,20 +162,36 @@ export const Remote = React.createClass({
       dataBlob: data,
       data: this.state.data.cloneWithRows(data)
     })
+
   },
   runZones(){
+
     let _this = this
     let data = this.state.dataBlob.slice()
-    let dataOff = this.state.dataBlob.slice()
     let selectedTime = this.state.selectedTime
 
     data.forEach(function(zone, index){
       if(zone.selected === true){
 
-        data[index] = { ...zone, selected: false, running: true }
-        dataOff[index] = { ...zone, selected: false, running: false }
+        if(zone.running.state){
+          clearTimeout(zone.running.timeoutID)
+        }
 
-        
+        let timeoutFunc = (function(){
+
+          let laterState = this.state.dataBlob.slice()
+          laterState[index] = { ...laterState[index], running: { state: false, timeoutID: null } }
+
+          this.setState({
+            dataBlob: laterState,
+            data: _this.state.data.cloneWithRows(laterState)
+          })
+
+        }).bind(_this)
+
+        var timeOut = setTimeout(timeoutFunc, selectedTime * 1000)
+
+        data[index] = { ...zone, selected: false, running: {state: true, timeoutID: timeOut} }
 
       }
     })
@@ -173,15 +202,8 @@ export const Remote = React.createClass({
       modalVisible: false
     })
 
-    setTimeout(function(){
-      _this.setState({
-        dataBlob: dataOff,
-        data: _this.state.data.cloneWithRows(dataOff)
-      })
-    }, selectedTime * 1000)
-
   },
-  cancelZones(){
+  cancelRun(){
 
     let data = this.state.dataBlob.slice()
 
@@ -190,120 +212,65 @@ export const Remote = React.createClass({
     })
 
     this.setState({
-      modalVisible: false
+      modalVisible: false,
+      dataBlob: data,
+      data: this.state.data.cloneWithRows(data)
     })
+
   },
   render(){
+
     return (
-        <View
-        style={ styles.screen }>
+      <View
+      style={ global.screen }>
+
+        <Header
+          text="Remote Control"
+          />
 
         <View
-          style={ styles.header }>
-          <Text style={styles.headerText}>Remote Control</Text>
-        </View>
-
-        <View
-          style={ styles.startZoneContainer }>
-
-          <TouchableHighlight style={ styles.button } onPress={ this.handleRunSelectedZones } underlayColor={"rgba(3, 169, 244, .1)"}>
-            <View
-              style={ styles.button }>
-              <Text style={ styles.buttonText }> Run Selected Zones</Text>
-            </View>
-          </ TouchableHighlight>
-
-          <TouchableHighlight style={ styles.button } onPress={ this.handleSelectAll } underlayColor={"rgba(3, 169, 244, .1)"}>
-            <View
-              style={ styles.button }>
-              <Text style={ styles.buttonText }> Select All</Text>
-            </View>
-          </ TouchableHighlight>
-
+          style={ local.startZoneContainer }>
+          <Button
+            text="Run Selected Zones"
+            onPress={this.handleRunSelectedZones}
+            />
+          <Button
+            text="Select All"
+            onPress={ this.handleSelectAll }
+            />
         </View>
 
         <ListView
-          style={ styles.zoneList }
+          style={ local.zoneList }
           dataSource={ this.state.data }
           renderRow={ this.renderRow }
         />
 
-        <Modal
-          visible={this.state.modalVisible}
-          >
-
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={this.state.selectedTime}
-              onValueChange={(value) =>  this.setState({ selectedTime: value })}>
-              {
-                timeGenerator().map(function(time){
-                  return (<Picker.Item key={ time.value } label={ time.label } value={ time.value } />)
-                })
-              }
-            </Picker>
-          </View>
-
-          <View style={styles.modalButtonContainer}>
-            <TouchableHighlight style={ styles.button } onPress={ this.runZones } underlayColor={"rgba(3, 169, 244, .1)"}>
-              <View style={ styles.button }>
-                <Text style={ styles.buttonText }>Run Zones</Text>
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight style={ styles.button } onPress={ this.cancelZones } underlayColor={"rgba(3, 169, 244, .1)"}>
-              <View style={ styles.button }>
-                <Text style={ styles.buttonText }>Cancel</Text>
-              </View>
-            </TouchableHighlight>
-          </View>
-
-        </Modal>
+        <RunZoneModal
+        modalVisible={ this.state.modalVisible }
+        selectedValue={ this.state.selectedTime }
+        onValueChange={ (value) => this.setState({ selectedTime: value }) }
+        runZones={ this.runZones }
+        cancelRun={ this.cancelRun}
+        />
 
       </View>
+
     )
+
   }
 })
 
-function timeGenerator(){
-  let output = [{ label: "1 Minute", value: 1 }]
-  for(i=2; i < 10; i++){
-    output.push({label: i + " Minutes", value: i})
-  }
-  for(i=10; i < 60; i+=5){
-    output.push({label: i + " Minutes", value: i})
-  }
-  for(i=60; i < 480; i+=60){
-    output.push({label: (i / 60) + " Hours", value: i})
-  }
-  return output
-}
-
-const times = timeGenerator()
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1
-  },
-  header: {
-    flex: 3,
-    backgroundColor: "#03A9F4",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 10
-  },
+const local = StyleSheet.create({
   startZoneContainer: {
     flex: 2,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     padding: 15,
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
+    borderBottomWidth: .5,
+    borderTopWidth: .5,
     borderColor: "black"
-  },
-  headerText: {
-    fontSize: 30,
-    color: "white"
   },
   zoneList: {
     flex: 25
@@ -318,30 +285,10 @@ const styles = StyleSheet.create({
     borderColor: "#B0BEC5"
   },
   rowSelected: {
-    backgroundColor: "yellow"
+    backgroundColor: "lightyellow"
   },
   rowRunning: {
     backgroundColor: "lightblue"
-  },
-  button: {
-    height: 50,
-    width: 150,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 5
-  },
-  buttonText: {
-    color: "#03A9F4",
-    fontSize: 14
-  },
-  modalButtonContainer: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center"
-  },
-  pickerContainer: {
-    flex: 2,
-    justifyContent: "center"
   },
   zoneRunningText: {
     color: "blue",

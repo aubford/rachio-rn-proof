@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigator } from 'react-native';
-import { Login } from '../components/Login'
-import { Remote } from '../components/Remote'
+import { Login } from './Login'
+import { Remote } from './Remote'
 
 export const Root = React.createClass({
 
@@ -22,6 +22,7 @@ export const Root = React.createClass({
         initialRoute={ routes[0] }
         initialRouteStack={ routes }
         renderScene= { this.renderScene }
+        configureScene= { ( route,routeStack ) => Navigator.SceneConfigs.HorizontalSwipeJump}
         />
     )
   }

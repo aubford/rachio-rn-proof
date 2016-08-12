@@ -7,7 +7,7 @@ const RachioRN = React.createClass({
   render() {
     return (
       <Root />
-    );
+    )
   }
 })
 

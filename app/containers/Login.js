@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Image, TouchableHighlight } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Image, TouchableHighlight, StatusBar } from 'react-native'
+import global from '../styles/global'
 
 export const Login = React.createClass({
   getInitialState: function(){
@@ -7,6 +8,9 @@ export const Login = React.createClass({
       password: "",
       username: ""
     }
+  },
+  componentDidMount(){
+    StatusBar.setBarStyle("light-content")
   },
   login: function(){
     if(this.state.password !== "" && this.state.username !== ""){
@@ -19,38 +23,38 @@ export const Login = React.createClass({
   },
   render(){
     return (
-      <View style={ styles.screen }>
+      <View style={ [ global.screen, local.screen ] }>
 
-        <View style={ styles.logoContainer}>
+        <View style={ local.logoContainer }>
           <Image source={ require('../../assets/images/rachio-logo.png') }
-            style={ styles.logo }
+            style={ local.logo }
             resizeMode={ 'contain' }
             />
         </View>
 
-        <View style={ styles.loginContainer }>
+        <View style={ local.loginContainer }>
 
           <TextInput
             value= { this.state.username }
-            style={ styles.input }
+            style={ local.input }
             onChangeText={(username) => this.setState({ username })}
             placeholder="Username"
             />
 
           <TextInput
             value= { this.state.password }
-            style={ styles.input }
+            style={ local.input }
             onChangeText={(password) => this.setState({ password })}
             placeholder="Password"
             />
 
         </ View>
 
-        <View style={ styles.buttonsContainer }>
+        <View style={ local.buttonsContainer }>
 
           <TouchableHighlight onPress={ this.login } >
-            <View style={ styles.button } >
-              <Text style={ styles.buttonText }>Log In</Text>
+            <View style={ [ global.button, local.button ] } >
+              <Text style={ local.buttonText }>Log In</Text>
             </View>
           </TouchableHighlight>
 
@@ -62,15 +66,14 @@ export const Login = React.createClass({
 })
 
 
-const styles = StyleSheet.create({
+const local = StyleSheet.create({
   screen: {
-    flex: 1,
     backgroundColor: "#00283A"
   },
   logoContainer: {
     flex: 3,
     alignItems: "center",
-    paddingTop: 10
+    justifyContent: "center"
   },
   loginContainer: {
     flex: 6,
@@ -81,9 +84,9 @@ const styles = StyleSheet.create({
     padding: 15
   },
   input: {
-    height:35,
-    fontSize: 15,
-    padding: 3,
+    height:50,
+    fontSize: 20,
+    padding: 10,
     backgroundColor: "aliceblue",
     marginTop: 5,
     borderRadius: 5
@@ -93,10 +96,9 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
+    width: null,
     borderWidth: 1,
-    borderColor: "chartreuse",
-    alignItems: "center",
-    justifyContent: "center"
+    borderColor: "chartreuse"
   },
   buttonText: {
     color: "white"
