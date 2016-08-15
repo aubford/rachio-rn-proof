@@ -1,10 +1,38 @@
 import React from 'react'
-import { ListView, TouchableHighlight, Text, View, StyleSheet } from 'react-native'
+import { ListView, TouchableHighlight, Text, View, StyleSheet, Animated, Easing } from 'react-native'
 const pt = React.PropTypes
 
 export default ZoneList = React.createClass({
   PropTypes: {
+    onZoneSelect: pt.func,
 
+  },
+  getInitialState(){
+    return {
+      pulse: new Animated.Value(8)
+    }
+  },
+  componentDidMount(){
+    this.runPulse()
+  },
+  runPulse(){
+    Animated.sequence([
+      Animated.timing(
+        this.state.pulse,
+        {
+          toValue: 9,
+          duration: 200
+        }
+      ),
+      Animated.timing(
+        this.state.pulse,
+        {
+          toValue: 8,
+          duration: 200
+        }
+      )
+
+    ]).start( () => this.runPulse() )
   },
   setRowStyle(rowData){
 
@@ -23,14 +51,15 @@ export default ZoneList = React.createClass({
 
   },
   renderRow(rowData, sectionID, rowID, highlightRow){
+
     return (
 
       <TouchableHighlight onPress={ () => this.props.onZoneSelect(rowData, sectionID, rowID) } underlayColor={"lightgrey"}>
         <View
           style={ this.setRowStyle(rowData) }
           >
-          <Text> { rowData.name } </Text>
-          { rowData.running.state && <Text style={local.zoneRunningText}> Zone Running </Text> }
+          <Text style={{ flex:1 }}> { rowData.name } </Text>
+          { rowData.running.state && <View style={ local.runningTextContainer} ><Animated.Text style={ [ local.zoneRunningText, { fontSize: this.state.pulse } ] }> Zone Running </Animated.Text></View> }
         </View>
       </TouchableHighlight>
 
@@ -40,7 +69,7 @@ export default ZoneList = React.createClass({
     return(
 
       <ListView
-        style={ { flex: 1 } }
+        style={ { flex: 25 } }
         dataSource={ this.props.data }
         renderRow={ this.renderRow }
         />
@@ -49,11 +78,11 @@ export default ZoneList = React.createClass({
   }
 })
 
+
 const local = StyleSheet.create({
   rowContainer: {
     padding: 20,
-    flexDirection: "row",
-    justifyContent: "space-between"
+    flexDirection: "row"
   },
   rowDivider: {
     borderBottomWidth: .5,
@@ -65,8 +94,12 @@ const local = StyleSheet.create({
   rowRunning: {
     backgroundColor: "lightblue"
   },
+  runningTextContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
   zoneRunningText: {
-    color: "blue",
-    fontSize: 8
+    color: "blue"
   }
 })
