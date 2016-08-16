@@ -1,6 +1,6 @@
-import React from 'react';
-import { AppRegistry } from 'react-native';
-import { Root } from './app/containers/Root';
+import React from 'react'
+import { AppRegistry } from 'react-native'
+import { Root } from './app/MobileRoot'
 
 
 const RachioRN = React.createClass({
@@ -11,4 +11,4 @@ const RachioRN = React.createClass({
   }
 })
 
-AppRegistry.registerComponent('rachioRN', () => RachioRN);
+AppRegistry.registerComponent('rachioRN', () => RachioRN)

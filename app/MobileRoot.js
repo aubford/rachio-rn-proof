@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigator } from 'react-native';
-import { Login } from './Login'
-import { Remote } from './Remote'
+import { Login } from './containers/Login'
+import { Remote } from './containers/Remote'
 
 export const Root = React.createClass({
 

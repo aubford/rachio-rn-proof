@@ -21,11 +21,11 @@ export default RunZoneModal = React.createClass({
         onRequestClose={() => console.log("orc")}
         >
 
-        <View style={ local.pickerContainer } >
+        <View style={ styles.pickerContainer } >
           <Picker
             selectedValue={ this.props.selectedValue }
             onValueChange={ this.props.onValueChange }
-            style= { local.picker }
+            style= { styles.picker }
             >
             {
               timeGenerator().map(function(time){
@@ -35,7 +35,7 @@ export default RunZoneModal = React.createClass({
           </Picker>
         </View>
 
-        <View style={ local.modalButtonContainer } >
+        <View style={ styles.modalButtonContainer } >
           <Button
             text="Run Zones"
             onPress={ this.props.runZones }
@@ -66,7 +66,7 @@ function timeGenerator(){
   return output
 }
 
-const local = StyleSheet.create({
+const styles = StyleSheet.create({
   pickerContainer: {
     flex: 2,
     justifyContent: "center",

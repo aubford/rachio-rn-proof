@@ -1,12 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, ListView, TouchableHighlight, Modal, Picker, Platform } from 'react-native'
-import global from '../styles/global'
-import Button from '../components/Button'
-import RunZoneModal from '../components/RunZoneModal'
-import Header from '../components/Header'
-import ZoneList from '../components/ZoneList'
+import Button from '../components/mobile/Button'
+import RunZoneModal from '../components/mobile/RunZoneModal'
+import Header from '../components/mobile/Header'
+import ZoneList from '../components/mobile/ZoneList'
 
-let dataBlob = [
+let data = [
   {
     name: "Zone 1",
     selected: false,
@@ -81,22 +79,15 @@ let dataBlob = [
 
 export const Remote = React.createClass({
   getInitialState(){
-    let ds = new ListView.DataSource({ rowHasChanged: (r1,r2) => r1 !== r2 })
     return {
-      dataBlob: dataBlob,
-      data: ds.cloneWithRows([]),
+      data: data,
       modalVisible: false,
       selectedTime: 1
     }
   },
-  componentDidMount(){
-    this.setState({
-      data: this.state.data.cloneWithRows(this.state.dataBlob)
-    })
-  },
   handleZoneSelect(rowData, sectionID, rowID){
     let index = Number(rowID)
-    let data = this.state.dataBlob.slice()
+    let data = this.state.data.slice()
 
     data[index] = {
       ...data[index],
@@ -104,8 +95,7 @@ export const Remote = React.createClass({
     }
 
     this.setState({
-      dataBlob: data,
-      data: this.state.data.cloneWithRows(data)
+      data: data
     })
   },
   handleRunSelectedZones(){
@@ -114,20 +104,19 @@ export const Remote = React.createClass({
     })
   },
   handleSelectAll(){
-    let data = this.state.dataBlob.slice()
+    let data = this.state.data.slice()
 
     data.forEach(function(zone, index){
       data[index] = { ...zone, selected: true }
     })
 
     this.setState({
-      dataBlob: data,
-      data: this.state.data.cloneWithRows(data)
+      data: data
     })
   },
   runZones(){
     let _this = this
-    let data = this.state.dataBlob.slice()
+    let data = this.state.data.slice()
     let selectedTime = this.state.selectedTime
 
     data.forEach(function(zone, index){
@@ -139,12 +128,11 @@ export const Remote = React.createClass({
 
         let timeoutFunc = (function(){
 
-          let laterState = this.state.dataBlob.slice()
+          let laterState = this.state.data.slice()
           laterState[index] = { ...laterState[index], running: { state: false, timeoutID: null } }
 
           this.setState({
-            dataBlob: laterState,
-            data: _this.state.data.cloneWithRows(laterState)
+            data: laterState
           })
 
         }).bind(_this)
@@ -157,13 +145,12 @@ export const Remote = React.createClass({
     })
 
     this.setState({
-      dataBlob: data,
-      data: this.state.data.cloneWithRows(data),
+      data: data,
       modalVisible: false
     })
   },
   cancelRun(){
-    let data = this.state.dataBlob.slice()
+    let data = this.state.data.slice()
 
     data.forEach(function(zone,index){
       data[index] = { ...zone, selected: false }
@@ -171,21 +158,19 @@ export const Remote = React.createClass({
 
     this.setState({
       modalVisible: false,
-      dataBlob: data,
-      data: this.state.data.cloneWithRows(data)
+      data: data
     })
   },
   render(){
     return (
-      <View
-      style={ global.screen }>
+      <Screen>
 
         <Header
           text="Remote Control"
           />
 
-        <View
-          style={ local.startZoneContainer }>
+        <Section
+          style={ styles.startZoneContainer }>
           <Button
             text="Run Selected Zones"
             onPress={ this.handleRunSelectedZones }
@@ -194,14 +179,12 @@ export const Remote = React.createClass({
             text="Select All"
             onPress={ this.handleSelectAll }
             />
-        </View>
+        </Section>
 
         <ZoneList
           style={ { flex: 1 }}
-          dataSource={ this.state.data}
           onZoneSelect={ this.handleZoneSelect }
           data={ this.state.data }
-          renderRow={ this.renderRow }
           />
 
         <RunZoneModal
@@ -212,43 +195,43 @@ export const Remote = React.createClass({
           cancelRun={ this.cancelRun}
           />
 
-      </View>
+      </Screen>
 
     )
   }
 })
 
-const local = StyleSheet.create({
-  startZoneContainer: {
-    flex: 2,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 15,
-    borderBottomWidth: .5,
-    borderTopWidth: .5,
-    borderColor: "black"
-  },
-  zoneList: {
-    flex: 25
-  },
-  rowContainer: {
-    padding: 20,
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  rowDivider: {
-    borderBottomWidth: .5,
-    borderColor: "#B0BEC5"
-  },
-  rowSelected: {
-    backgroundColor: "lightyellow"
-  },
-  rowRunning: {
-    backgroundColor: "lightblue"
-  },
-  zoneRunningText: {
-    color: "blue",
-    fontSize: 8
+let styles = {
+    startZoneContainer: {
+      flex: 2,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: 15,
+      borderBottomWidth: .5,
+      borderTopWidth: .5,
+      borderColor: "black"
+    },
+    zoneList: {
+      flex: 25
+    },
+    rowContainer: {
+      padding: 20,
+      flexDirection: "row",
+      justifyContent: "space-between"
+    },
+    rowDivider: {
+      borderBottomWidth: .5,
+      borderColor: "#B0BEC5"
+    },
+    rowSelected: {
+      backgroundColor: "lightyellow"
+    },
+    rowRunning: {
+      backgroundColor: "lightblue"
+    },
+    zoneRunningText: {
+      color: "blue",
+      fontSize: 8
+    }
   }
-})

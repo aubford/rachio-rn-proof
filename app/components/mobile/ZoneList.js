@@ -4,16 +4,21 @@ const pt = React.PropTypes
 
 export default ZoneList = React.createClass({
   PropTypes: {
-    onZoneSelect: pt.func,
-
+    onZoneSelect: pt.func
   },
   getInitialState(){
+    let ds = new ListView.DataSource({ rowHasChanged: (r1,r2) => r1 !== r2 })
     return {
+      data: ds.cloneWithRows([]),
       pulse: new Animated.Value(8)
     }
   },
   componentDidMount(){
     this.runPulse()
+    this.setState({
+      data: this.state.data.cloneWithRows( this.props.data )
+    })
+    this.forceUpdate()
   },
   runPulse(){
     Animated.sequence([
@@ -34,18 +39,23 @@ export default ZoneList = React.createClass({
 
     ]).start( () => this.runPulse() )
   },
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      data: this.state.data.cloneWithRows( nextProps.data )
+    })
+  },
   setRowStyle(rowData){
 
-    style = [ local.rowContainer ]
-    let lastRow = this.props.data.getRowData(0, this.props.data.getRowCount() - 1)
+    style = [ styles.rowContainer ]
+    let lastRow = this.state.data.getRowData(0, this.state.data.getRowCount() - 1)
     if( rowData.name !== lastRow.name ){
-      style.push(local.rowDivider)
+      style.push(styles.rowDivider)
     }
     if (rowData.selected === true){
-      style.push(local.rowSelected)
+      style.push(styles.rowSelected)
     }
     else if (rowData.running.state === true){
-      style.push(local.rowRunning)
+      style.push(styles.rowRunning)
     }
     return style
 
@@ -59,7 +69,7 @@ export default ZoneList = React.createClass({
           style={ this.setRowStyle(rowData) }
           >
           <Text style={{ flex:1 }}> { rowData.name } </Text>
-          { rowData.running.state && <View style={ local.runningTextContainer} ><Animated.Text style={ [ local.zoneRunningText, { fontSize: this.state.pulse } ] }> Zone Running </Animated.Text></View> }
+          { rowData.running.state && <View style={ styles.runningTextContainer} ><Animated.Text style={ [ styles.zoneRunningText, { fontSize: this.state.pulse } ] }> Zone Running </Animated.Text></View> }
         </View>
       </TouchableHighlight>
 
@@ -70,7 +80,7 @@ export default ZoneList = React.createClass({
 
       <ListView
         style={ { flex: 25 } }
-        dataSource={ this.props.data }
+        dataSource={ this.state.data }
         renderRow={ this.renderRow }
         />
 
@@ -78,8 +88,7 @@ export default ZoneList = React.createClass({
   }
 })
 
-
-const local = StyleSheet.create({
+const styles = StyleSheet.create({
   rowContainer: {
     padding: 20,
     flexDirection: "row"

@@ -1,6 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, Image, TouchableHighlight, StatusBar } from 'react-native'
-import global from '../styles/global'
+import React from 'react'
+import { StyleSheet,StatusBar, Platform } from 'react-native'
+import Button from '../components/mobile/Button'
+import Section from '../components/mobile/Section'
+import Screen from '../components/mobile/Screen'
+import Logo from '../components/mobile/Logo'
+import Input from '../components/mobile/Input'
 
 export const Login = React.createClass({
   getInitialState: function(){
@@ -10,7 +14,9 @@ export const Login = React.createClass({
     }
   },
   componentDidMount(){
-    StatusBar.setBarStyle("light-content")
+    if ( Platform.OS ){
+      StatusBar.setBarStyle("light-content")
+    }
   },
   login: function(){
     if(this.state.password !== "" && this.state.username !== ""){
@@ -18,89 +24,68 @@ export const Login = React.createClass({
       this.props.navigator.push({
         title: 'Remote'
       })
-
     }
   },
   render(){
     return (
-      <View style={ [ global.screen, local.screen ] }>
+      <Screen style={ styles.screen }>
 
-        <View style={ local.logoContainer }>
-          <Image source={ require('../../assets/images/rachio-logo.png') }
-            style={ local.logo }
-            resizeMode={ 'contain' }
-            />
-        </View>
+        <Logo />
 
-        <View style={ local.loginContainer }>
+        <Section style={ styles.loginContainer }>
 
-          <TextInput
+          <Input
             value= { this.state.username }
-            style={ local.input }
             onChangeText={(username) => this.setState({ username })}
             placeholder="Username"
             />
 
-          <TextInput
-            value= { this.state.password }
-            style={ local.input }
-            onChangeText={(password) => this.setState({ password })}
+          <Input
+            value = { this.state.password }
+            onChangeText = { ( password ) => this.setState({ password }) }
             placeholder="Password"
             />
 
-        </ View>
+        </Section>
 
-        <View style={ local.buttonsContainer }>
+        <Section style={ styles.buttonsContainer }>
 
-          <TouchableHighlight onPress={ this.login } >
-            <View style={ [ global.button, local.button ] } >
-              <Text style={ local.buttonText }>Log In</Text>
-            </View>
-          </TouchableHighlight>
+          <Button
+            text="Log In"
+            textStyle={ styles.buttonText }
+            style={ styles.button }
+            underlayColor={ "chartreuse" }
+            onPress={ this.login }
+            />
 
-        </View>
+        </Section>
 
-      </ View>
+      </ Screen>
     )
   }
 })
 
-
-const local = StyleSheet.create({
+const styles = {
   screen: {
     backgroundColor: "#00283A"
-  },
-  logoContainer: {
-    flex: 3,
-    alignItems: "center",
-    justifyContent: "center"
   },
   loginContainer: {
     flex: 6,
     padding: 15
-    },
+  },
   buttonsContainer: {
     flex: 2,
-    padding: 15
-  },
-  input: {
-    height:50,
-    fontSize: 20,
-    padding: 10,
-    backgroundColor: "aliceblue",
-    marginTop: 5,
-    borderRadius: 5
-  },
-  logo: {
-    width: 200
+    padding: 15,
+    flexDirection: "row"
   },
   button: {
     height: 50,
     width: null,
+    flex: 1,
     borderWidth: 1,
     borderColor: "chartreuse"
   },
   buttonText: {
     color: "white"
   }
-})
+}
