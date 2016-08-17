@@ -1,10 +1,10 @@
 import React from 'react'
-import { StatusBar, Platform } from 'react-native'
-import Button from '../components/mobile/Button'
-import Section from '../components/mobile/Section'
-import Screen from '../components/mobile/Screen'
-import Logo from '../components/mobile/Logo'
-import Input from '../components/mobile/Input'
+import { Platform, StatusBar } from 'react-native'
+import { Button } from '../components/mobile/Button'
+import { Section } from '../components/mobile/Section'
+import { Screen } from '../components/mobile/Screen'
+import { Logo } from '../components/mobile/Logo'
+import { Input } from '../components/mobile/Input'
 
 export const Login = React.createClass({
   getInitialState: function(){

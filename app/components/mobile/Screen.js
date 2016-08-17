@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 const pt = React.PropTypes
 
-export default Screen = React.createClass({
+export const Screen = React.createClass({
   propTypes: {
     style: pt.object
   },

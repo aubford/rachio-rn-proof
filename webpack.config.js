@@ -11,7 +11,9 @@ var HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
 })
 
 module.exports = {
-  entry: [path.join(__dirname, './index.web.js')],
+  entry: [
+    path.join(__dirname, './index.web.js')
+  ],
   output: {
     path: __dirname + '/dist',
     filename: "bundle.js"
@@ -42,5 +44,7 @@ module.exports = {
       'react-native' : 'react-native-web'
     }
   },
-  plugins: [ HTMLWebpackPluginConfig ]
+  plugins: [
+    HTMLWebpackPluginConfig
+  ]
 }

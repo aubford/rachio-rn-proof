@@ -2,7 +2,7 @@ import React from 'react'
 import { TextInput, StyleSheet } from 'react-native'
 const pt = React.PropTypes
 
-export default Input = React.createClass({
+export const Input = React.createClass({
   propTypes: {
     value: pt.string,
     onChangeText: pt.func

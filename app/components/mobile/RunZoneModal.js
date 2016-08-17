@@ -3,7 +3,7 @@ import { View, TouchableHighlight, Text, Picker, StyleSheet, Modal, Platform } f
 import Button from './Button'
 const pt = React.PropTypes
 
-export default RunZoneModal = React.createClass({
+export const RunZoneModal = React.createClass({
   PropTypes: {
     modalVisible: pt.bool,
     selectedValue: pt.number,

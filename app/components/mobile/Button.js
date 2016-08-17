@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, TouchableHighlight, StyleSheet, Platform } from 'react-native'
 const pt = React.PropTypes
 
-export default Button = React.createClass({
+export const Button = React.createClass({
 
   propTypes: {
     style: pt.object,

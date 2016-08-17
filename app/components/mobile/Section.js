@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 const pt = React.PropTypes
 
-export default Section = React.createClass({
+export const Section = React.createClass({
 
   propTypes: {
     style: pt.object

@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Image, StyleSheet } from 'react-native'
 
 
-export default Logo = React.createClass({
+export const Logo = React.createClass({
   render(){
     return(
       <View style={ styles.logoContainer }>
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   logo: {
-    width: 200
+    width: 200,
+    alignSelf: "auto"
   }
 })

@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, Platform } from 'react-native'
 const pt = React.PropTypes
 
-export default Header = React.createClass({
+export const Header = React.createClass({
   propTypes: {
     text: pt.string
   },
