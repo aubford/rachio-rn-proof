@@ -1,31 +1,47 @@
+var path = require('path')
+var webpack = require('webpack')
 
-const config = {
-  entry: {
-    app: ['./index.web']
-  },
+var DIRECTORY = path.join(__dirname)
+
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: __dirname + '/index.html',
+  filename: 'index.html',
+  inject: 'body'
+})
+
+module.exports = {
+  entry: [path.join(__dirname, './index.web.js')],
   output: {
-    path: __dirname + '/dist'
-    filename: 'js/[name].bundle.js',
-    chunkFilename: 'js/[name].bundle.js'
+    path: __dirname + '/dist',
+    filename: "bundle.js"
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
-        loader: 'babel',
-        query: {
-          presets: ['react', 'es2015', 'stage-0']
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+        ,exclude: [ path.resolve( __dirname + 'MobileRoot.js' ), path.resolve( __dirname + 'index.ios.js' ), path.resolve( __dirname + 'index.android.js' ), path.resolve( __dirname + 'app/components/mobile' ), path.resolve( __dirname + 'ios' ), path.resolve( __dirname + 'android' ) ]
+        },
+        {
+          test: /\.(gif|jpe?g|png|svg)$/,
+          loader: 'url-loader',
+          query: { name: '[name].[hash:16].[ext]' }
         }
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        loaders: [
-          'file?hash=sha512&digest=hex&name=[hash].[ext]',
-          'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
-        ]
-      }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+    }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurenceOrderPlugin()
+  ],
+  resolve: {
+    alias: {
+      'react-native' : 'react-native-web'
+    }
+  },
+  plugins: [HTMLWebpackPluginConfig ]
 }
-
-module.exports = config

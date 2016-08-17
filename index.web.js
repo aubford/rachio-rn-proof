@@ -1,14 +1,26 @@
 import React from 'react'
-import 
-import { Root } from './app/MobileRoot'
+import ReactNative, { AppRegistry } from 'react-native'
+// import { Login } from './app/containers/Login'
+// import { Remote } from './app/containers/Remote'
 
 
-const RachioRN = React.createClass({
-  render() {
-    return (
-      <Root />
+const Root = React.createClass({
+  render(){
+    return(
+      <View>
+        <Text>Hello</Text>
+      </View>
     )
   }
 })
 
-AppRegistry.registerComponent('rachioRN', () => RachioRN)
+AppRegistry.registerComponent('App', () => Root);
+AppRegistry.runApplication('App', {
+  rootTag: document.getElementById('root')
+})
+
+
+// ReactNative.render(
+//   <Root />,
+//   document.getElementById('root')
+// )

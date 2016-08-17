@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet,StatusBar, Platform } from 'react-native'
+import { StatusBar, Platform } from 'react-native'
 import Button from '../components/mobile/Button'
 import Section from '../components/mobile/Section'
 import Screen from '../components/mobile/Screen'
@@ -14,7 +14,7 @@ export const Login = React.createClass({
     }
   },
   componentDidMount(){
-    if ( Platform.OS ){
+    if ( Platform.OS !== 'web' ){
       StatusBar.setBarStyle("light-content")
     }
   },
