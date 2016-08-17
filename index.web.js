@@ -1,15 +1,13 @@
 import React from 'react'
 import ReactNative, { AppRegistry, View, Text } from 'react-native'
-// import { Login } from './app/containers/Login'
-// import { Remote } from './app/containers/Remote'
+import { Login } from './app/containers/Login'
+import { Remote } from './app/containers/Remote'
 
 
 const Root = React.createClass({
   render(){
     return(
-      <View>
-        <Text>Hello</Text>
-      </View>
+      <Login />
     )
   }
 })

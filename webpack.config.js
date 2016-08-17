@@ -22,13 +22,12 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
-        ,exclude: [ path.resolve( __dirname + 'MobileRoot.js' ), path.resolve( __dirname + 'index.ios.js' ), path.resolve( __dirname + 'index.android.js' ), path.resolve( __dirname + 'app/components/mobile' ), path.resolve( __dirname + 'ios' ), path.resolve( __dirname + 'android' ) ]
-        },
-        {
-          test: /\.(gif|jpe?g|png|svg)$/,
-          loader: 'url-loader',
-          query: { name: '[name].[hash:16].[ext]' }
-        }
+      },
+      {
+        test: /\.(gif|jpe?g|png|svg)$/,
+        loader: 'url-loader',
+        query: { name: '[name].[hash:16].[ext]' }
+      }
     ]
   },
   plugins: [
@@ -43,5 +42,5 @@ module.exports = {
       'react-native' : 'react-native-web'
     }
   },
-  plugins: [HTMLWebpackPluginConfig ]
+  plugins: [ HTMLWebpackPluginConfig ]
 }
