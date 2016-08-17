@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactNative, { AppRegistry } from 'react-native'
+import ReactNative, { AppRegistry, View, Text } from 'react-native'
 // import { Login } from './app/containers/Login'
 // import { Remote } from './app/containers/Remote'
 
