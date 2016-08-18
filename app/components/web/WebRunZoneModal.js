@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, TouchableHighlight, Text, Picker, StyleSheet, Modal, Platform } from 'react-native'
-import { Button } from './Button'
+import { WebButton } from './WebButton'
 const pt = React.PropTypes
 
-export const RunZoneModal = React.createClass({
+export const WebRunZoneModal = React.createClass({
   PropTypes: {
     modalVisible: pt.bool,
     selectedValue: pt.number,

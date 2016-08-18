@@ -1,8 +1,16 @@
 import React from 'react';
-import Button from '../components/mobile/Button'
-import RunZoneModal from '../components/mobile/RunZoneModal'
-import Header from '../components/mobile/Header'
-import ZoneList from '../components/mobile/ZoneList'
+import { Button } from '../components/mobile/Button'
+import { RunZoneModal } from '../components/mobile/RunZoneModal'
+import { Header } from '../components/mobile/Header'
+import { ZoneList } from '../components/mobile/ZoneList'
+import { Screen } from '../components/mobile/Screen'
+import { Section } from '../components/mobile/Section'
+
+import { WebButton } from '../components/web/WebButton'
+import { WebRunZoneModal } from '../components/web/WebRunZoneModal'
+import { WebHeader } from '../components/web/WebHeader'
+import { WebZoneList } from '../components/web/WebZoneList'
+import { WebScreen } from '../components/web/WebScreen'
 
 let data = [
   {

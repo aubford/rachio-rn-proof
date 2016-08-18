@@ -2,7 +2,7 @@ import React from 'react'
 import { ListView, TouchableHighlight, Text, View, StyleSheet, Animated, Easing } from 'react-native'
 const pt = React.PropTypes
 
-export const ZoneList = React.createClass({
+export const WebZoneList = React.createClass({
   PropTypes: {
     onZoneSelect: pt.func
   },
