@@ -46,7 +46,7 @@ export const ZoneList = React.createClass({
   },
   setRowStyle(rowData){
 
-    style = [ styles.rowContainer ]
+    let style = [ styles.rowContainer ]
     let lastRow = this.state.data.getRowData(0, this.state.data.getRowCount() - 1)
     if( rowData.name !== lastRow.name ){
       style.push(styles.rowDivider)

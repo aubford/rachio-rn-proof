@@ -6,6 +6,12 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "dev": "webpack-dev-server --port 3000 --config webpack.config.js --inline --hot --colors --quiet --history-api-fallback"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  },
   "dependencies": {
     "@rachio/rachio-web-colors-mui-theme": "^1.0.1",
     "@rachio/rachio-web-ui": "^1.0.23",

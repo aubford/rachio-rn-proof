@@ -1,16 +1,11 @@
 import React from 'react';
+import { Platform } from 'react-native'
 import { Button } from '../components/mobile/Button'
 import { RunZoneModal } from '../components/mobile/RunZoneModal'
 import { Header } from '../components/mobile/Header'
 import { ZoneList } from '../components/mobile/ZoneList'
 import { Screen } from '../components/mobile/Screen'
 import { Section } from '../components/mobile/Section'
-
-import { WebButton } from '../components/web/WebButton'
-import { WebRunZoneModal } from '../components/web/WebRunZoneModal'
-import { WebHeader } from '../components/web/WebHeader'
-import { WebZoneList } from '../components/web/WebZoneList'
-import { WebScreen } from '../components/web/WebScreen'
 
 let data = [
   {
@@ -194,6 +189,9 @@ export const Remote = React.createClass({
           onZoneSelect={ this.handleZoneSelect }
           data={ this.state.data }
           />
+        {
+        Platform &&
+        Platform.OS !== 'web' &&
 
         <RunZoneModal
           modalVisible={ this.state.modalVisible }
@@ -202,7 +200,7 @@ export const Remote = React.createClass({
           runZones={ this.runZones }
           cancelRun={ this.cancelRun}
           />
-
+        }
       </Screen>
 
     )

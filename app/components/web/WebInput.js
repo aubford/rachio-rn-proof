@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, StyleSheet } from 'react-native'
+import { stl } from '../../util'
 const pt = React.PropTypes
 
 export const WebInput = React.createClass({
@@ -9,23 +9,22 @@ export const WebInput = React.createClass({
   },
   render(){
     return(
-      <TextInput
+      <input
         value= { this.props.value }
-        style={ styles.input }
-        onChangeText={ this.props.onChangeText }
+        style={stl( styles )}
+        onChange={ this.props.onChange }
         placeholder= { this.props.placeholder }
         />
     )
   }
 })
 
-const styles = StyleSheet.create({
-  input: {
-    height:50,
+const styles = {
+    height: 50,
+    width: 350,
     fontSize: 20,
     padding: 10,
     backgroundColor: "aliceblue",
     marginTop: 5,
     borderRadius: 5
-  }
-})
+}

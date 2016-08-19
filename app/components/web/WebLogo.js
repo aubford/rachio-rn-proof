@@ -1,29 +1,27 @@
 import React from 'react'
-import { View, Image, StyleSheet } from 'react-native'
+import { stl } from '../../util'
 
 
 export const WebLogo = React.createClass({
   render(){
     return(
-      <View style={ styles.logoContainer }>
-        <Image source={ require('../../../assets/images/rachio-logo.png') }
-          style={ styles.logo }
-          resizeMode={ 'contain' }
+      <div style={stl( styles.logoContainer )}>
+        <img src={ require('../../../assets/images/rachio-logo.png') }
+          style={stl( styles.logo )}
           />
-      </View>
+      </div>
     )
   }
 })
 
 
-const styles = StyleSheet.create({
+const styles = {
   logoContainer: {
-    flex: 3,
+    flex: 2,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "flex-end"
   },
   logo: {
-    width: 200,
-    alignSelf: "auto"
+    width: 300
   }
-})
+}

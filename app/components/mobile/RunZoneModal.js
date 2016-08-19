@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, TouchableHighlight, Text, Picker, StyleSheet, Modal, Platform } from 'react-native'
-import { Button } from './Button'
+import Button from './Button'
 const pt = React.PropTypes
 
 export const RunZoneModal = React.createClass({
@@ -11,7 +11,6 @@ export const RunZoneModal = React.createClass({
     runZones: pt.func,
     cancelRun: pt.func
   },
-
   render(){
 
     return (

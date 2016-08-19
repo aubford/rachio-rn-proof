@@ -14,29 +14,31 @@ import { WebScreen } from '../components/web/WebScreen'
 import { WebLogo } from '../components/web/WebLogo'
 import { WebInput } from '../components/web/WebInput'
 
-if ( Platform.OS === 'web' ){
+if ( Platform.OS && Platform.OS === 'web' ){
   var Buttony = WebButton
   var Sectiony = WebSection
   var Screeny = WebScreen
   var Logoy = WebLogo
   var Inputy = WebInput
+}else{
+  var Buttony = Button
 }
 
 export const Login = React.createClass({
-  getInitialState: function(){
+  getInitialState(){
     return {
       password: "",
       username: ""
     }
   },
   componentDidMount(){
-    if ( Platform.OS !== 'web' ){
+    if ( Platform && Platform.OS !== 'web' ){
       StatusBar.setBarStyle("light-content")
     }
   },
-  login: function(){
+  login(){
     if(this.state.password !== "" && this.state.username !== ""){
-      if( Platform.OS !== 'web'){
+      if( Platform && Platform.OS !== 'web'){
         this.props.navigator.push({
           title: 'Remote'
         })
@@ -45,23 +47,30 @@ export const Login = React.createClass({
       }
     }
   },
+  handleInputChange(evt, type){
+    let webUpdate = {}
+    webUpdate[type] = evt.target.value
+
+    evt.target.value ? this.setState( webUpdate ) : this.setState({ evt })
+
+  },
   render(){
     return (
       <Screeny style={ styles.screen }>
 
         <Logoy />
 
-        <Sectiony style={ styles.loginContainer }>
+        <Sectiony style={ styles.inputContainer }>
 
           <Inputy
             value= { this.state.username }
-            onChangeText={(username) => this.setState({ username })}
+            onChange={ (evt) => this.handleInputChange(evt, "username") }
             placeholder="Username"
             />
 
           <Inputy
-            value = { this.state.password }
-            onChangeText = { ( password ) => this.setState({ password }) }
+            value= { this.state.password }
+            onChange={ (evt) => this.handleInputChange(evt, "password") }
             placeholder="Password"
             />
 
@@ -74,7 +83,7 @@ export const Login = React.createClass({
             textStyle={ styles.buttonText }
             style={ styles.button }
             underlayColor={ "chartreuse" }
-            onPress={ this.login }
+            onClick={ this.login }
             />
 
         </Sectiony>
@@ -88,21 +97,34 @@ const styles = {
   screen: {
     backgroundColor: "#00283A"
   },
-  loginContainer: {
+  inputContainer: {
     flex: 6,
-    padding: 15
+    padding: 15,
+    alignItems: "center",
+
+    ...Platform.select({
+      web: {
+        flex: 1,
+        justifyContent: "center"
+      }
+    })
   },
   buttonsContainer: {
     flex: 2,
     padding: 15,
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "center"
   },
   button: {
-    height: 50,
-    width: null,
+    borderWidth: 2,
+    borderColor: "chartreuse",
     flex: 1,
-    borderWidth: 1,
-    borderColor: "chartreuse"
+
+    ...Platform.select({
+      web: {
+        flex: null
+      }
+    })
   },
   buttonText: {
     color: "white"

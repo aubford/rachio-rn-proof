@@ -65,7 +65,9 @@
 
 	var _Login = __webpack_require__(239);
 
-	var _Remote = __webpack_require__(572);
+	var _Remote = __webpack_require__(574);
+
+	var _WebApp = __webpack_require__(578);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -75,8 +77,12 @@
 	    return _react2.default.createElement(
 	      _reactRouter.Router,
 	      { history: _reactRouter.browserHistory },
-	      _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Login.Login }),
-	      _react2.default.createElement(_reactRouter.Route, { path: '/remote', component: _Remote.Remote })
+	      _react2.default.createElement(
+	        _reactRouter.Route,
+	        { path: '/', component: _WebApp.WebApp },
+	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _Login.Login }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/remote', component: _Remote.Remote })
+	      )
 	    );
 	  }
 	});
@@ -27118,6 +27124,8 @@
 	});
 	exports.Login = undefined;
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -27138,27 +27146,28 @@
 
 	var _WebButton = __webpack_require__(567);
 
-	var _WebSection = __webpack_require__(568);
+	var _WebSection = __webpack_require__(570);
 
-	var _WebScreen = __webpack_require__(569);
+	var _WebScreen = __webpack_require__(571);
 
-	var _WebLogo = __webpack_require__(570);
+	var _WebLogo = __webpack_require__(572);
 
-	var _WebInput = __webpack_require__(571);
+	var _WebInput = __webpack_require__(573);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	if (_reactNative.Platform.OS === 'web') {
+	if (_reactNative.Platform.OS && _reactNative.Platform.OS === 'web') {
 	  var Buttony = _WebButton.WebButton;
 	  var Sectiony = _WebSection.WebSection;
 	  var Screeny = _WebScreen.WebScreen;
 	  var Logoy = _WebLogo.WebLogo;
 	  var Inputy = _WebInput.WebInput;
+	} else {
+	  var Buttony = _Button.Button;
 	}
 
 	var Login = exports.Login = _react2.default.createClass({
 	  displayName: 'Login',
-
 	  getInitialState: function getInitialState() {
 	    return {
 	      password: "",
@@ -27166,14 +27175,13 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    if (_reactNative.Platform.OS !== 'web') {
+	    if (_reactNative.Platform && _reactNative.Platform.OS !== 'web') {
 	      _reactNative.StatusBar.setBarStyle("light-content");
 	    }
 	  },
-
 	  login: function login() {
 	    if (this.state.password !== "" && this.state.username !== "") {
-	      if (_reactNative.Platform.OS !== 'web') {
+	      if (_reactNative.Platform && _reactNative.Platform.OS !== 'web') {
 	        this.props.navigator.push({
 	          title: 'Remote'
 	        });
@@ -27181,6 +27189,12 @@
 	        _reactRouter.browserHistory.push('/remote');
 	      }
 	    }
+	  },
+	  handleInputChange: function handleInputChange(evt, type) {
+	    var webUpdate = {};
+	    webUpdate[type] = evt.target.value;
+
+	    evt.target.value ? this.setState(webUpdate) : this.setState({ evt: evt });
 	  },
 	  render: function render() {
 	    var _this = this;
@@ -27191,18 +27205,18 @@
 	      _react2.default.createElement(Logoy, null),
 	      _react2.default.createElement(
 	        Sectiony,
-	        { style: styles.loginContainer },
+	        { style: styles.inputContainer },
 	        _react2.default.createElement(Inputy, {
 	          value: this.state.username,
-	          onChangeText: function onChangeText(username) {
-	            return _this.setState({ username: username });
+	          onChange: function onChange(evt) {
+	            return _this.handleInputChange(evt, "username");
 	          },
 	          placeholder: 'Username'
 	        }),
 	        _react2.default.createElement(Inputy, {
 	          value: this.state.password,
-	          onChangeText: function onChangeText(password) {
-	            return _this.setState({ password: password });
+	          onChange: function onChange(evt) {
+	            return _this.handleInputChange(evt, "password");
 	          },
 	          placeholder: 'Password'
 	        })
@@ -27215,7 +27229,7 @@
 	          textStyle: styles.buttonText,
 	          style: styles.button,
 	          underlayColor: "chartreuse",
-	          onPress: this.login
+	          onClick: this.login
 	        })
 	      )
 	    );
@@ -27226,22 +27240,33 @@
 	  screen: {
 	    backgroundColor: "#00283A"
 	  },
-	  loginContainer: {
+	  inputContainer: _extends({
 	    flex: 6,
-	    padding: 15
-	  },
+	    padding: 15,
+	    alignItems: "center"
+
+	  }, _reactNative.Platform.select({
+	    web: {
+	      flex: 1,
+	      justifyContent: "center"
+	    }
+	  })),
 	  buttonsContainer: {
 	    flex: 2,
 	    padding: 15,
-	    flexDirection: "row"
+	    flexDirection: "row",
+	    justifyContent: "center"
 	  },
-	  button: {
-	    height: 50,
-	    width: null,
-	    flex: 1,
-	    borderWidth: 1,
-	    borderColor: "chartreuse"
-	  },
+	  button: _extends({
+	    borderWidth: 2,
+	    borderColor: "chartreuse",
+	    flex: 1
+
+	  }, _reactNative.Platform.select({
+	    web: {
+	      flex: null
+	    }
+	  })),
 	  buttonText: {
 	    color: "white"
 	  }
@@ -46728,7 +46753,7 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      _reactNative.TouchableHighlight,
-	      { style: [styles.button, { flexDirection: "row" }, this.props.style, { borderWidth: 0 }], onPress: this.props.onPress, underlayColor: this.props.underlayColor ? this.props.underlayColor : "rgba(3, 169, 244, .1)" },
+	      { style: [styles.button, { flexDirection: "row" }, this.props.style, { borderWidth: 0 }], onPress: this.props.onClick, underlayColor: this.props.underlayColor ? this.props.underlayColor : "rgba(3, 169, 244, .1)" },
 	      _react2.default.createElement(
 	        _reactNative.View,
 	        {
@@ -46752,12 +46777,16 @@
 	    alignItems: "center",
 	    justifyContent: "center",
 	    borderRadius: 5
+
 	  }, _reactNative.Platform.select({
-	    android: { backgroundColor: "#03A9F4" }
+	    android: {
+	      backgroundColor: "#03A9F4"
+	    }
 	  })),
 	  buttonText: _extends({
 	    color: "#03A9F4",
 	    fontSize: 14
+
 	  }, _reactNative.Platform.select({
 	    android: {
 	      color: "white"
@@ -46922,7 +46951,7 @@
 	    return _react2.default.createElement(_reactNative.TextInput, {
 	      value: this.props.value,
 	      style: styles.input,
-	      onChangeText: this.props.onChangeText,
+	      onChangeText: this.props.onChange,
 	      placeholder: this.props.placeholder
 	    });
 	  }
@@ -46956,7 +46985,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactNative = __webpack_require__(240);
+	var _util = __webpack_require__(568);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46973,49 +47002,97 @@
 	    text: pt.string,
 	    onPress: pt.func
 	  },
-
+	  getInitialState: function getInitialState() {
+	    return {
+	      hover: false
+	    };
+	  },
+	  style: function style() {
+	    return this.state.hover ? { backgroundColor: "rgba(255, 255, 148, .2)" } : { backgroundColor: "transparent" };
+	  },
 	  render: function render() {
+	    var _this = this;
+
 	    return _react2.default.createElement(
-	      _reactNative.TouchableHighlight,
-	      { style: [styles.button, { flexDirection: "row" }, this.props.style, { borderWidth: 0 }], onPress: this.props.onPress, underlayColor: this.props.underlayColor ? this.props.underlayColor : "rgba(3, 169, 244, .1)" },
+	      'div',
+	      { style: _extends({}, (0, _util.stl)(styles.button, this.props.style), this.style()), onMouseOver: function onMouseOver() {
+	          return _this.setState({ hover: true });
+	        }, onMouseOut: function onMouseOut() {
+	          return _this.setState({ hover: false });
+	        }, onClick: this.props.onClick },
 	      _react2.default.createElement(
-	        _reactNative.View,
-	        {
-	          style: [styles.button, this.props.style] },
-	        _react2.default.createElement(
-	          _reactNative.Text,
-	          { style: [styles.buttonText, this.props.textStyle] },
-	          ' ',
-	          this.props.text,
-	          ' '
-	        )
+	        'p',
+	        { style: (0, _util.stl)(styles.buttonText, this.props.textStyle) },
+	        ' ',
+	        this.props.text,
+	        ' '
 	      )
 	    );
 	  }
 	});
 
-	var styles = _reactNative.StyleSheet.create({
-	  button: _extends({
-	    height: 50,
-	    width: 150,
+	var styles = {
+	  button: {
+	    height: 70,
+	    width: 250,
 	    alignItems: "center",
 	    justifyContent: "center",
-	    borderRadius: 5
-	  }, _reactNative.Platform.select({
-	    android: { backgroundColor: "#03A9F4" }
-	  })),
-	  buttonText: _extends({
+	    borderRadius: 5,
+	    flexDirection: "row",
+	    border: "1px solid",
+	    cursor: "pointer"
+	  },
+	  buttonText: {
 	    color: "#03A9F4",
 	    fontSize: 14
-	  }, _reactNative.Platform.select({
-	    android: {
-	      color: "white"
-	    }
-	  }))
-	});
+	  }
+	};
 
 /***/ },
 /* 568 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports.stl = stl;
+
+	var _web = __webpack_require__(569);
+
+	function stl() {
+	  var args = [].concat(Array.prototype.slice.call(arguments));
+	  var styles = {};
+
+	  args.forEach(function (e) {
+	    styles = _extends({}, styles, e);
+	  });
+
+	  return _extends({}, _web.defaults, styles);
+	}
+
+/***/ },
+/* 569 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var defaults = exports.defaults = {
+	  boxSizing: "border-box",
+	  display: "flex",
+	  flexDirection: "column",
+	  alignItems: "stretch"
+	};
+
+/***/ },
+/* 570 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47029,7 +47106,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactNative = __webpack_require__(240);
+	var _util = __webpack_require__(568);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47044,15 +47121,15 @@
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
-	      _reactNative.View,
-	      { style: this.props.style },
+	      'div',
+	      { style: (0, _util.stl)(this.props.style) },
 	      this.props.children
 	    );
 	  }
 	});
 
 /***/ },
-/* 569 */
+/* 571 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47066,7 +47143,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactNative = __webpack_require__(240);
+	var _util = __webpack_require__(568);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47081,15 +47158,15 @@
 
 	  render: function render() {
 	    return _react2.default.createElement(
-	      _reactNative.View,
-	      { style: [{ flex: 1 }, this.props.style] },
+	      'div',
+	      { style: (0, _util.stl)({ flex: 1 }, this.props.style) },
 	      this.props.children
 	    );
 	  }
 	});
 
 /***/ },
-/* 570 */
+/* 572 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47103,7 +47180,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactNative = __webpack_require__(240);
+	var _util = __webpack_require__(568);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47111,30 +47188,28 @@
 	  displayName: 'WebLogo',
 	  render: function render() {
 	    return _react2.default.createElement(
-	      _reactNative.View,
-	      { style: styles.logoContainer },
-	      _react2.default.createElement(_reactNative.Image, { source: __webpack_require__(565),
-	        style: styles.logo,
-	        resizeMode: 'contain'
+	      'div',
+	      { style: (0, _util.stl)(styles.logoContainer) },
+	      _react2.default.createElement('img', { src: __webpack_require__(565),
+	        style: (0, _util.stl)(styles.logo)
 	      })
 	    );
 	  }
 	});
 
-	var styles = _reactNative.StyleSheet.create({
+	var styles = {
 	  logoContainer: {
-	    flex: 3,
+	    flex: 2,
 	    alignItems: "center",
-	    justifyContent: "center"
+	    justifyContent: "flex-end"
 	  },
 	  logo: {
-	    width: 200,
-	    alignSelf: "auto"
+	    width: 300
 	  }
-	});
+	};
 
 /***/ },
-/* 571 */
+/* 573 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47148,7 +47223,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactNative = __webpack_require__(240);
+	var _util = __webpack_require__(568);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47162,28 +47237,27 @@
 	    onChangeText: pt.func
 	  },
 	  render: function render() {
-	    return _react2.default.createElement(_reactNative.TextInput, {
+	    return _react2.default.createElement('input', {
 	      value: this.props.value,
-	      style: styles.input,
-	      onChangeText: this.props.onChangeText,
+	      style: (0, _util.stl)(styles),
+	      onChange: this.props.onChange,
 	      placeholder: this.props.placeholder
 	    });
 	  }
 	});
 
-	var styles = _reactNative.StyleSheet.create({
-	  input: {
-	    height: 50,
-	    fontSize: 20,
-	    padding: 10,
-	    backgroundColor: "aliceblue",
-	    marginTop: 5,
-	    borderRadius: 5
-	  }
-	});
+	var styles = {
+	  height: 50,
+	  width: 350,
+	  fontSize: 20,
+	  padding: 10,
+	  backgroundColor: "aliceblue",
+	  marginTop: 5,
+	  borderRadius: 5
+	};
 
 /***/ },
-/* 572 */
+/* 574 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47199,27 +47273,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactNative = __webpack_require__(240);
+
 	var _Button = __webpack_require__(561);
 
-	var _RunZoneModal = __webpack_require__(573);
+	var _RunZoneModal = __webpack_require__(575);
 
-	var _Header = __webpack_require__(574);
+	var _Header = __webpack_require__(576);
 
-	var _ZoneList = __webpack_require__(575);
+	var _ZoneList = __webpack_require__(577);
 
 	var _Screen = __webpack_require__(563);
 
 	var _Section = __webpack_require__(562);
-
-	var _WebButton = __webpack_require__(567);
-
-	var _WebRunZoneModal = __webpack_require__(576);
-
-	var _WebHeader = __webpack_require__(577);
-
-	var _WebZoneList = __webpack_require__(578);
-
-	var _WebScreen = __webpack_require__(569);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47390,7 +47456,7 @@
 	        onZoneSelect: this.handleZoneSelect,
 	        data: this.state.data
 	      }),
-	      _react2.default.createElement(_RunZoneModal.RunZoneModal, {
+	      _reactNative.Platform && _reactNative.Platform.OS !== 'web' && _react2.default.createElement(_RunZoneModal.RunZoneModal, {
 	        modalVisible: this.state.modalVisible,
 	        selectedValue: this.state.selectedTime,
 	        onValueChange: function onValueChange(value) {
@@ -47439,7 +47505,7 @@
 	};
 
 /***/ },
-/* 573 */
+/* 575 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47459,6 +47525,8 @@
 
 	var _Button = __webpack_require__(561);
 
+	var _Button2 = _interopRequireDefault(_Button);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var pt = _react2.default.PropTypes;
@@ -47473,7 +47541,6 @@
 	    runZones: pt.func,
 	    cancelRun: pt.func
 	  },
-
 	  render: function render() {
 
 	    return _react2.default.createElement(
@@ -47502,11 +47569,11 @@
 	      _react2.default.createElement(
 	        _reactNative.View,
 	        { style: styles.modalButtonContainer },
-	        _react2.default.createElement(_Button.Button, {
+	        _react2.default.createElement(_Button2.default, {
 	          text: 'Run Zones',
 	          onPress: this.props.runZones
 	        }),
-	        _react2.default.createElement(_Button.Button, {
+	        _react2.default.createElement(_Button2.default, {
 	          text: 'Cancel',
 	          onPress: this.props.cancelRun
 	        })
@@ -47551,7 +47618,7 @@
 	});
 
 /***/ },
-/* 574 */
+/* 576 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47613,7 +47680,7 @@
 	});
 
 /***/ },
-/* 575 */
+/* 577 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47675,7 +47742,7 @@
 	  },
 	  setRowStyle: function setRowStyle(rowData) {
 
-	    style = [styles.rowContainer];
+	    var style = [styles.rowContainer];
 	    var lastRow = this.state.data.getRowData(0, this.state.data.getRowCount() - 1);
 	    if (rowData.name !== lastRow.name) {
 	      style.push(styles.rowDivider);
@@ -47750,180 +47817,6 @@
 	  },
 	  zoneRunningText: {
 	    color: "blue"
-	  }
-	});
-
-/***/ },
-/* 576 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.WebRunZoneModal = undefined;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactNative = __webpack_require__(240);
-
-	var _WebButton = __webpack_require__(567);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var pt = _react2.default.PropTypes;
-
-	var WebRunZoneModal = exports.WebRunZoneModal = _react2.default.createClass({
-	  displayName: 'WebRunZoneModal',
-
-	  PropTypes: {
-	    modalVisible: pt.bool,
-	    selectedValue: pt.number,
-	    onValueChange: pt.func,
-	    runZones: pt.func,
-	    cancelRun: pt.func
-	  },
-
-	  render: function render() {
-
-	    return _react2.default.createElement(
-	      _reactNative.Modal,
-	      {
-	        visible: this.props.modalVisible,
-	        onRequestClose: function onRequestClose() {
-	          return console.log("orc");
-	        }
-	      },
-	      _react2.default.createElement(
-	        _reactNative.View,
-	        { style: styles.pickerContainer },
-	        _react2.default.createElement(
-	          _reactNative.Picker,
-	          {
-	            selectedValue: this.props.selectedValue,
-	            onValueChange: this.props.onValueChange,
-	            style: styles.picker
-	          },
-	          timeGenerator().map(function (time) {
-	            return _react2.default.createElement(_reactNative.Picker.Item, { key: time.value, label: time.label, value: time.value });
-	          })
-	        )
-	      ),
-	      _react2.default.createElement(
-	        _reactNative.View,
-	        { style: styles.modalButtonContainer },
-	        _react2.default.createElement(Button, {
-	          text: 'Run Zones',
-	          onPress: this.props.runZones
-	        }),
-	        _react2.default.createElement(Button, {
-	          text: 'Cancel',
-	          onPress: this.props.cancelRun
-	        })
-	      )
-	    );
-	  }
-	});
-
-	function timeGenerator() {
-	  var output = [{ label: "1 Minute", value: 1 }];
-	  for (i = 2; i < 10; i++) {
-	    output.push({ label: i + " Minutes", value: i });
-	  }
-	  for (i = 10; i < 60; i += 5) {
-	    output.push({ label: i + " Minutes", value: i });
-	  }
-	  for (i = 60; i < 480; i += 60) {
-	    output.push({ label: i / 60 + " Hours", value: i });
-	  }
-	  return output;
-	}
-
-	var styles = _reactNative.StyleSheet.create({
-	  pickerContainer: {
-	    flex: 2,
-	    justifyContent: "center",
-	    alignItems: "center"
-	  },
-	  picker: {
-	    width: 250
-	  },
-	  modalButtonContainer: _extends({
-	    flex: 1,
-	    justifyContent: "flex-start",
-	    alignItems: "center",
-	    paddingBottom: 100
-	  }, _reactNative.Platform.select({
-	    android: {
-	      justifyContent: "space-around"
-	    }
-	  }))
-	});
-
-/***/ },
-/* 577 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.WebHeader = undefined;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactNative = __webpack_require__(240);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var pt = _react2.default.PropTypes;
-
-	var WebHeader = exports.WebHeader = _react2.default.createClass({
-	  displayName: 'WebHeader',
-
-	  propTypes: {
-	    text: pt.string
-	  },
-	  render: function render() {
-	    return _react2.default.createElement(
-	      _reactNative.View,
-	      {
-	        style: styles.header },
-	      _react2.default.createElement(
-	        _reactNative.Text,
-	        { style: styles.headerText },
-	        ' ',
-	        this.props.text,
-	        ' '
-	      )
-	    );
-	  }
-	});
-
-	var styles = _reactNative.StyleSheet.create({
-	  header: _extends({
-	    flex: 3,
-	    backgroundColor: "#03A9F4",
-	    alignItems: "center",
-	    justifyContent: "center"
-	  }, _reactNative.Platform.select({
-	    ios: {
-	      paddingTop: 20
-	    }
-	  })),
-	  headerText: {
-	    fontSize: 30,
-	    color: "white"
 	  }
 	});
 
@@ -47936,137 +47829,30 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.WebZoneList = undefined;
+	exports.WebApp = undefined;
 
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactNative = __webpack_require__(240);
+	var _util = __webpack_require__(568);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var pt = _react2.default.PropTypes;
-
-	var WebZoneList = exports.WebZoneList = _react2.default.createClass({
-	  displayName: 'WebZoneList',
-
-	  PropTypes: {
-	    onZoneSelect: pt.func
-	  },
-	  getInitialState: function getInitialState() {
-	    var ds = new _reactNative.ListView.DataSource({ rowHasChanged: function rowHasChanged(r1, r2) {
-	        return r1 !== r2;
-	      } });
-	    return {
-	      data: ds.cloneWithRows([]),
-	      pulse: new _reactNative.Animated.Value(8)
-	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.runPulse();
-	    this.setState({
-	      data: this.state.data.cloneWithRows(this.props.data)
-	    });
-	    this.forceUpdate();
-	  },
-	  runPulse: function runPulse() {
-	    var _this = this;
-
-	    _reactNative.Animated.sequence([_reactNative.Animated.timing(this.state.pulse, {
-	      toValue: 9,
-	      duration: 200
-	    }), _reactNative.Animated.timing(this.state.pulse, {
-	      toValue: 8,
-	      duration: 200
-	    })]).start(function () {
-	      return _this.runPulse();
-	    });
-	  },
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    this.setState({
-	      data: this.state.data.cloneWithRows(nextProps.data)
-	    });
-	  },
-	  setRowStyle: function setRowStyle(rowData) {
-
-	    style = [styles.rowContainer];
-	    var lastRow = this.state.data.getRowData(0, this.state.data.getRowCount() - 1);
-	    if (rowData.name !== lastRow.name) {
-	      style.push(styles.rowDivider);
-	    }
-	    if (rowData.selected === true) {
-	      style.push(styles.rowSelected);
-	    } else if (rowData.running.state === true) {
-	      style.push(styles.rowRunning);
-	    }
-	    return style;
-	  },
-	  renderRow: function renderRow(rowData, sectionID, rowID, highlightRow) {
-	    var _this2 = this;
-
-	    return _react2.default.createElement(
-	      _reactNative.TouchableHighlight,
-	      { onPress: function onPress() {
-	          return _this2.props.onZoneSelect(rowData, sectionID, rowID);
-	        }, underlayColor: "lightgrey" },
-	      _react2.default.createElement(
-	        _reactNative.View,
-	        {
-	          style: this.setRowStyle(rowData)
-	        },
-	        _react2.default.createElement(
-	          _reactNative.Text,
-	          { style: { flex: 1 } },
-	          ' ',
-	          rowData.name,
-	          ' '
-	        ),
-	        rowData.running.state && _react2.default.createElement(
-	          _reactNative.View,
-	          { style: styles.runningTextContainer },
-	          _react2.default.createElement(
-	            _reactNative.Animated.Text,
-	            { style: [styles.zoneRunningText, { fontSize: this.state.pulse }] },
-	            ' Zone Running '
-	          )
-	        )
-	      )
-	    );
-	  },
+	var WebApp = exports.WebApp = _react2.default.createClass({
+	  displayName: 'WebApp',
 	  render: function render() {
-	    return _react2.default.createElement(_reactNative.ListView, {
-	      style: { flex: 25 },
-	      dataSource: this.state.data,
-	      renderRow: this.renderRow
-	    });
+	    return _react2.default.createElement(
+	      'div',
+	      { style: (0, _util.stl)(styles) },
+	      this.props.children
+	    );
 	  }
 	});
 
-	var styles = _reactNative.StyleSheet.create({
-	  rowContainer: {
-	    padding: 20,
-	    flexDirection: "row"
-	  },
-	  rowDivider: {
-	    borderBottomWidth: .5,
-	    borderColor: "#B0BEC5"
-	  },
-	  rowSelected: {
-	    backgroundColor: "lightyellow"
-	  },
-	  rowRunning: {
-	    backgroundColor: "lightblue"
-	  },
-	  runningTextContainer: {
-	    flex: 1,
-	    alignItems: "center",
-	    justifyContent: "center"
-	  },
-	  zoneRunningText: {
-	    color: "blue"
-	  }
-	});
+	var styles = {
+	  height: "100vh"
+	};
 
 /***/ }
 /******/ ]);

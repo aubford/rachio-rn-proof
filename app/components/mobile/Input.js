@@ -12,7 +12,7 @@ export const Input = React.createClass({
       <TextInput
         value= { this.props.value }
         style={ styles.input }
-        onChangeText={ this.props.onChangeText }
+        onChangeText={ this.props.onChange }
         placeholder= { this.props.placeholder }
         />
     )

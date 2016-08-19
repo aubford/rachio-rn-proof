@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { stl } from '../../util'
 const pt = React.PropTypes
 
 export const WebScreen = React.createClass({
@@ -9,9 +9,9 @@ export const WebScreen = React.createClass({
 
   render(){
     return (
-      <View style={[ { flex: 1 }, this.props.style ]} >
+      <div style={stl( { flex: 1 }, this.props.style )} >
         {this.props.children}
-      </View>
+      </div>
     )
   }
 

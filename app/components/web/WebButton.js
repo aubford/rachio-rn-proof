@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableHighlight, StyleSheet, Platform } from 'react-native'
+import { stl } from '../../util'
 const pt = React.PropTypes
 
 export const WebButton = React.createClass({
@@ -11,39 +11,41 @@ export const WebButton = React.createClass({
     text: pt.string,
     onPress: pt.func
   },
+  getInitialState(){
+    return {
+      hover: false
+    }
+  },
+  style(){
+    return this.state.hover ?
+      {backgroundColor: "rgba(255, 255, 148, .2)"} :
+      {backgroundColor: "transparent"}
 
+  },
   render(){
     return (
 
-      <TouchableHighlight style={ [ styles.button, { flexDirection: "row" }, this.props.style, { borderWidth: 0 } ] } onPress={ this.props.onPress } underlayColor={ this.props.underlayColor ? this.props.underlayColor : "rgba(3, 169, 244, .1)" }>
-        <View
-          style={ [ styles.button, this.props.style ] }>
-          <Text style={ [ styles.buttonText, this.props.textStyle ] }> {this.props.text} </Text>
-        </View>
-      </ TouchableHighlight>
+      <div style={{ ...stl( styles.button, this.props.style ), ...this.style() }} onMouseOver={()=>this.setState({hover: true})} onMouseOut={()=>this.setState({hover:false})} onClick={ this.props.onClick } >
+          <p style={stl( styles.buttonText, this.props.textStyle )}> {this.props.text} </p>
+      </div>
 
     )
   }
 })
 
-const styles = StyleSheet.create({
+const styles = {
   button: {
-    height: 50,
-    width: 150,
+    height: 70,
+    width: 250,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
-    ...Platform.select({
-      android: {backgroundColor: "#03A9F4"}
-    })
+    flexDirection: "row",
+    border: "1px solid",
+    cursor: "pointer"
   },
   buttonText: {
     color: "#03A9F4",
-    fontSize: 14,
-    ...Platform.select({
-      android: {
-        color: "white"
-      }
-    })
+    fontSize: 14
   }
-})
+}
