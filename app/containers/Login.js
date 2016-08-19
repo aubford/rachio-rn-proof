@@ -1,6 +1,6 @@
 import React from 'react'
 import { Platform, StatusBar } from 'react-native'
-import { browserHistory } from 'react-router'
+
 
 import { Button } from '../components/mobile/Button'
 import { Section } from '../components/mobile/Section'
@@ -22,6 +22,10 @@ if ( Platform.OS && Platform.OS === 'web' ){
   var Inputy = WebInput
 }else{
   var Buttony = Button
+  var Sectiony = Section
+  var Screeny = Screen
+  var Logoy = Logo
+  var Inputy = Input
 }
 
 export const Login = React.createClass({
