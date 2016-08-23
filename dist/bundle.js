@@ -27197,7 +27197,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	if (_reactNative.Platform.OS && _reactNative.Platform.OS === 'web') {
+	if (_reactNative.Platform && _reactNative.Platform.OS === 'web') {
 	  var Buttony = _WebButton.WebButton;
 	  var Sectiony = _WebSection.WebSection;
 	  var Screeny = _WebScreen.WebScreen;
@@ -27236,10 +27236,13 @@
 	    }
 	  },
 	  handleInputChange: function handleInputChange(evt, type) {
-	    var webUpdate = {};
-	    webUpdate[type] = evt.target.value;
-
-	    evt.target.value ? this.setState(webUpdate) : this.setState({ evt: evt });
+	    if (evt.target) {
+	      var webUpdate = {};
+	      webUpdate[type] = evt.target.value;
+	      this.setState(webUpdate);
+	    } else {
+	      this.setState({ evt: evt });
+	    }
 	  },
 	  render: function render() {
 	    var _this = this;

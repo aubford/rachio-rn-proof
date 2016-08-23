@@ -1,4 +1,5 @@
 import React from 'react'
+import { browserHistory } from 'react-router'
 import { Platform, StatusBar } from 'react-native'
 
 
@@ -14,7 +15,7 @@ import { WebScreen } from '../components/web/WebScreen'
 import { WebLogo } from '../components/web/WebLogo'
 import { WebInput } from '../components/web/WebInput'
 
-if ( Platform.OS && Platform.OS === 'web' ){
+if ( Platform && Platform.OS === 'web' ){
   var Buttony = WebButton
   var Sectiony = WebSection
   var Screeny = WebScreen
@@ -52,10 +53,13 @@ export const Login = React.createClass({
     }
   },
   handleInputChange(evt, type){
-    let webUpdate = {}
-    webUpdate[type] = evt.target.value
-
-    evt.target.value ? this.setState( webUpdate ) : this.setState({ evt })
+    if(evt.target && evt.target.value){
+      let webUpdate = {}
+      webUpdate[type] = evt.target.value
+      this.setState( webUpdate )
+    }else{
+      this.setState({ evt })
+    }
 
   },
   render(){
