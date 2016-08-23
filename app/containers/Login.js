@@ -53,14 +53,9 @@ export const Login = React.createClass({
     }
   },
   handleInputChange(evt, type){
-    if(evt.target && evt.target.value){
-      let webUpdate = {}
-      webUpdate[type] = evt.target.value
-      this.setState( webUpdate )
-    }else{
-      this.setState({ evt })
-    }
-
+    let update = {}
+    update[type] = evt.target && evt.target.value ? evt.target.value : evt
+    this.setState( update )
   },
   render(){
     return (
@@ -114,6 +109,9 @@ const styles = {
       web: {
         flex: 1,
         justifyContent: "center"
+      },
+      android: {
+        alignItems: "stretch"
       }
     })
   },
@@ -124,13 +122,17 @@ const styles = {
     justifyContent: "center"
   },
   button: {
-    borderWidth: 2,
-    borderColor: "chartreuse",
     flex: 1,
 
     ...Platform.select({
       web: {
-        flex: null
+        flex: null,
+        borderWidth: 2,
+        borderColor: "chartreuse"
+      },
+      ios: {
+        borderWidth: 2,
+        borderColor: "chartreuse"
       }
     })
   },

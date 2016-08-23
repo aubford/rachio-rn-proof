@@ -27173,6 +27173,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(176);
+
 	var _reactNative = __webpack_require__(240);
 
 	var _Button = __webpack_require__(561);
@@ -27231,18 +27233,14 @@
 	          title: 'Remote'
 	        });
 	      } else {
-	        browserHistory.push('/remote');
+	        _reactRouter.browserHistory.push('/remote');
 	      }
 	    }
 	  },
 	  handleInputChange: function handleInputChange(evt, type) {
-	    if (evt.target) {
-	      var webUpdate = {};
-	      webUpdate[type] = evt.target.value;
-	      this.setState(webUpdate);
-	    } else {
-	      this.setState({ evt: evt });
-	    }
+	    var update = {};
+	    update[type] = evt.target && evt.target.value ? evt.target.value : evt;
+	    this.setState(update);
 	  },
 	  render: function render() {
 	    var _this = this;

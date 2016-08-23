@@ -21,7 +21,7 @@ export const Input = React.createClass({
 
 const styles = StyleSheet.create({
   input: {
-    height:50,
+    height: 50,
     fontSize: 20,
     padding: 10,
     backgroundColor: "aliceblue",

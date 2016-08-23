@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#03A9F4",
     fontSize: 14,
-    
+
     ...Platform.select({
       android: {
         color: "white"
