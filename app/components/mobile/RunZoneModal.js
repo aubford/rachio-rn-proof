@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, TouchableHighlight, Text, Picker, StyleSheet, Modal, Platform } from 'react-native'
-import Button from './Button'
+import { Button } from './Button'
 const pt = React.PropTypes
 
 export const RunZoneModal = React.createClass({
@@ -17,7 +17,6 @@ export const RunZoneModal = React.createClass({
 
       <Modal
         visible={ this.props.modalVisible }
-        onRequestClose={() => console.log("orc")}
         >
 
         <View style={ styles.pickerContainer } >
@@ -37,11 +36,11 @@ export const RunZoneModal = React.createClass({
         <View style={ styles.modalButtonContainer } >
           <Button
             text="Run Zones"
-            onPress={ this.props.runZones }
+            onClick={ this.props.runZones }
             />
           <Button
             text="Cancel"
-            onPress={ this.props.cancelRun }
+            onClick={ this.props.cancelRun }
             />
         </View>
 

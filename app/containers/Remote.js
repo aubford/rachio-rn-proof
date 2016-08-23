@@ -102,6 +102,7 @@ export const Remote = React.createClass({
     })
   },
   handleRunSelectedZones(){
+    console.log("run");
     this.setState({
       modalVisible: true
     })
@@ -176,11 +177,11 @@ export const Remote = React.createClass({
           style={ styles.startZoneContainer }>
           <Button
             text="Run Selected Zones"
-            onPress={ this.handleRunSelectedZones }
+            onClick={ this.handleRunSelectedZones }
             />
           <Button
             text="Select All"
-            onPress={ this.handleSelectAll }
+            onClick={ this.handleSelectAll }
             />
         </Section>
 
@@ -189,6 +190,7 @@ export const Remote = React.createClass({
           onZoneSelect={ this.handleZoneSelect }
           data={ this.state.data }
           />
+
         {
         Platform &&
         Platform.OS !== 'web' &&
@@ -201,6 +203,7 @@ export const Remote = React.createClass({
           cancelRun={ this.cancelRun}
           />
         }
+
       </Screen>
 
     )
