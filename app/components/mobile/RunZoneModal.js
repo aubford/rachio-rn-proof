@@ -53,13 +53,13 @@ export const RunZoneModal = React.createClass({
 
 function timeGenerator(){
   let output = [{ label: "1 Minute", value: 1 }]
-  for(i=2; i < 10; i++){
+  for(var i=2; i < 10; i++){
     output.push({label: i + " Minutes", value: i})
   }
-  for(i=10; i < 60; i+=5){
+  for(var i=10; i < 60; i+=5){
     output.push({label: i + " Minutes", value: i})
   }
-  for(i=60; i < 480; i+=60){
+  for(var i=60; i < 480; i+=60){
     output.push({label: (i / 60) + " Hours", value: i})
   }
   return output
