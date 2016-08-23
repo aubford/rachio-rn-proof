@@ -16,17 +16,17 @@ import { WebLogo } from '../components/web/WebLogo'
 import { WebInput } from '../components/web/WebInput'
 
 if ( Platform && Platform.OS === 'web' ){
-  var Buttony = WebButton
-  var Sectiony = WebSection
-  var Screeny = WebScreen
-  var Logoy = WebLogo
-  var Inputy = WebInput
+  var ButtonSw = WebButton
+  var SectionSw = WebSection
+  var ScreenSw = WebScreen
+  var LogoSw = WebLogo
+  var InputSw = WebInput
 }else{
-  var Buttony = Button
-  var Sectiony = Section
-  var Screeny = Screen
-  var Logoy = Logo
-  var Inputy = Input
+  var ButtonSw = Button
+  var SectionSw = Section
+  var ScreenSw = Screen
+  var LogoSw = Logo
+  var InputSw = Input
 }
 
 export const Login = React.createClass({
@@ -59,29 +59,29 @@ export const Login = React.createClass({
   },
   render(){
     return (
-      <Screeny style={ styles.screen }>
+      <ScreenSw style={ styles.screen }>
 
-        <Logoy />
+        <LogoSw />
 
-        <Sectiony style={ styles.inputContainer }>
+        <SectionSw style={ styles.inputContainer }>
 
-          <Inputy
+          <InputSw
             value= { this.state.username }
             onChange={ (evt) => this.handleInputChange(evt, "username") }
             placeholder="Username"
             />
 
-          <Inputy
+          <InputSw
             value= { this.state.password }
             onChange={ (evt) => this.handleInputChange(evt, "password") }
             placeholder="Password"
             />
 
-        </Sectiony>
+        </SectionSw>
 
-        <Sectiony style={ styles.buttonsContainer }>
+        <SectionSw style={ styles.buttonsContainer }>
 
-          <Buttony
+          <ButtonSw
             text="Log In"
             textStyle={ styles.buttonText }
             style={ styles.button }
@@ -89,9 +89,9 @@ export const Login = React.createClass({
             onClick={ this.login }
             />
 
-        </Sectiony>
+        </SectionSw>
 
-      </ Screeny>
+      </ScreenSw>
     )
   }
 })

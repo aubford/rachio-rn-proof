@@ -27295,6 +27295,9 @@
 	    web: {
 	      flex: 1,
 	      justifyContent: "center"
+	    },
+	    android: {
+	      alignItems: "stretch"
 	    }
 	  })),
 	  buttonsContainer: {
@@ -27304,13 +27307,17 @@
 	    justifyContent: "center"
 	  },
 	  button: _extends({
-	    borderWidth: 2,
-	    borderColor: "chartreuse",
 	    flex: 1
 
 	  }, _reactNative.Platform.select({
 	    web: {
-	      flex: null
+	      flex: null,
+	      borderWidth: 2,
+	      borderColor: "chartreuse"
+	    },
+	    ios: {
+	      borderWidth: 2,
+	      borderColor: "chartreuse"
 	    }
 	  })),
 	  buttonText: {
@@ -47415,6 +47422,7 @@
 	    });
 	  },
 	  handleRunSelectedZones: function handleRunSelectedZones() {
+	    console.log("run");
 	    this.setState({
 	      modalVisible: true
 	    });
@@ -47490,11 +47498,11 @@
 	          style: styles.startZoneContainer },
 	        _react2.default.createElement(_Button.Button, {
 	          text: 'Run Selected Zones',
-	          onPress: this.handleRunSelectedZones
+	          onClick: this.handleRunSelectedZones
 	        }),
 	        _react2.default.createElement(_Button.Button, {
 	          text: 'Select All',
-	          onPress: this.handleSelectAll
+	          onClick: this.handleSelectAll
 	        })
 	      ),
 	      _react2.default.createElement(_ZoneList.ZoneList, {
@@ -47571,8 +47579,6 @@
 
 	var _Button = __webpack_require__(561);
 
-	var _Button2 = _interopRequireDefault(_Button);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var pt = _react2.default.PropTypes;
@@ -47592,10 +47598,7 @@
 	    return _react2.default.createElement(
 	      _reactNative.Modal,
 	      {
-	        visible: this.props.modalVisible,
-	        onRequestClose: function onRequestClose() {
-	          return console.log("orc");
-	        }
+	        visible: this.props.modalVisible
 	      },
 	      _react2.default.createElement(
 	        _reactNative.View,
@@ -47615,13 +47618,13 @@
 	      _react2.default.createElement(
 	        _reactNative.View,
 	        { style: styles.modalButtonContainer },
-	        _react2.default.createElement(_Button2.default, {
+	        _react2.default.createElement(_Button.Button, {
 	          text: 'Run Zones',
-	          onPress: this.props.runZones
+	          onClick: this.props.runZones
 	        }),
-	        _react2.default.createElement(_Button2.default, {
+	        _react2.default.createElement(_Button.Button, {
 	          text: 'Cancel',
-	          onPress: this.props.cancelRun
+	          onClick: this.props.cancelRun
 	        })
 	      )
 	    );

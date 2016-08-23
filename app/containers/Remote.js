@@ -102,7 +102,6 @@ export const Remote = React.createClass({
     })
   },
   handleRunSelectedZones(){
-    console.log("run");
     this.setState({
       modalVisible: true
     })
