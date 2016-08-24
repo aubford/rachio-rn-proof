@@ -36,7 +36,6 @@ export const ZoneList = React.createClass({
           duration: 200
         }
       )
-
     ]).start( () => this.runPulse() )
   },
   componentWillReceiveProps(nextProps){
@@ -45,23 +44,18 @@ export const ZoneList = React.createClass({
     })
   },
   setRowStyle(rowData){
-
     let style = [ styles.rowContainer ]
-    let lastRow = this.state.data.getRowData(0, this.state.data.getRowCount() - 1)
-    if( rowData.name !== lastRow.name ){
-      style.push(styles.rowDivider)
-    }
     if (rowData.selected === true){
       style.push(styles.rowSelected)
     }
-    else if (rowData.running.state === true){
+    if (rowData.running === true){
       style.push(styles.rowRunning)
     }
     return style
 
   },
   renderRow(rowData, sectionID, rowID, highlightRow){
-
+    console.log("rerender", rowData)
     return (
 
       <TouchableHighlight onPress={ () => this.props.onZoneSelect(rowData, sectionID, rowID) } underlayColor={"lightgrey"}>
@@ -69,7 +63,7 @@ export const ZoneList = React.createClass({
           style={ this.setRowStyle(rowData) }
           >
           <Text style={{ flex:1 }}> { rowData.name } </Text>
-          { rowData.running.state && <View style={ styles.runningTextContainer} ><Animated.Text style={ [ styles.zoneRunningText, { fontSize: this.state.pulse } ] }> Zone Running </Animated.Text></View> }
+          { rowData.running && <View style={ styles.runningTextContainer } ><Animated.Text style={ [ styles.zoneRunningText, { fontSize: this.state.pulse } ] }> Zone Running </Animated.Text></View> }
         </View>
       </TouchableHighlight>
 
@@ -91,9 +85,7 @@ export const ZoneList = React.createClass({
 const styles = StyleSheet.create({
   rowContainer: {
     padding: 20,
-    flexDirection: "row"
-  },
-  rowDivider: {
+    flexDirection: "row",
     borderBottomWidth: .5,
     borderColor: "#B0BEC5"
   },

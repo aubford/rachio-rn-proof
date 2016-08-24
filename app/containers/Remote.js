@@ -6,20 +6,112 @@ import { Header } from '../components/mobile/Header'
 import { ZoneList } from '../components/mobile/ZoneList'
 import { Screen } from '../components/mobile/Screen'
 import { Section } from '../components/mobile/Section'
-import { api } from '../api'
+import { api, apiUtil } from '../api'
 
-let WEBHOOK_URL = "ngrok.io...."
+let data = [
+  {
+    name: "Zone 1",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 2",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 3",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 4",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 5",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 6",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 7",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 8",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 9",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 10",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 11",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 12",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 13",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  },
+  {
+    name: "Zone 14",
+    selected: false,
+    running: { state: false, timeoutID: null }
+  }
+]
 
+let interval
 
 export const Remote = React.createClass({
   getInitialState(){
-    api.get
 
     return {
-      data: data,
+      data: [],
       modalVisible: false,
       selectedTime: 1
     }
+
+  },
+  setZoneStatus(){
+    api.getEvents().then((res) => res.json()).then((res) => {
+      this.setState({
+        data: apiUtil.getZoneStatus(res, this.state.data)
+      })
+    })
+  },
+  componentDidMount(){
+
+    api.getDeviceInfo().then((res) => res.json()).then((res) => {
+      this.setState({ data: apiUtil.initZones(res.zones) })
+      this.setZoneStatus()
+    })
+
+    interval = setInterval(this.setZoneStatus, 2000)
+
+  },
+  componentWillUnmount(){
+    clearInterval(interval)
   },
   handleZoneSelect(rowData, sectionID, rowID){
     let index = Number(rowID)
@@ -48,41 +140,6 @@ export const Remote = React.createClass({
 
     this.setState({
       data: data
-    })
-  },
-  runZones(){
-    let _this = this
-    let data = this.state.data.slice()
-    let selectedTime = this.state.selectedTime
-
-    data.forEach(function(zone, index){
-      if(zone.selected === true){
-
-        if(zone.running.state){
-          clearTimeout(zone.running.timeoutID)
-        }
-
-        let timeoutFunc = (function(){
-
-          let laterState = this.state.data.slice()
-          laterState[index] = { ...laterState[index], running: { state: false, timeoutID: null } }
-
-          this.setState({
-            data: laterState
-          })
-
-        }).bind(_this)
-
-        var timeOut = setTimeout(timeoutFunc, selectedTime * 1000)
-
-        data[index] = { ...zone, selected: false, running: {state: true, timeoutID: timeOut} }
-
-      }
-    })
-
-    this.setState({
-      data: data,
-      modalVisible: false
     })
   },
   cancelRun(){
@@ -118,7 +175,7 @@ export const Remote = React.createClass({
         </Section>
 
         <ZoneList
-          style={ { flex: 1 }}
+          style={ { flex: 1 } }
           onZoneSelect={ this.handleZoneSelect }
           data={ this.state.data }
           />
