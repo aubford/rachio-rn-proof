@@ -55,7 +55,6 @@ export const ZoneList = React.createClass({
 
   },
   renderRow(rowData, sectionID, rowID, highlightRow){
-    console.log("rerender", rowData)
     return (
 
       <TouchableHighlight onPress={ () => this.props.onZoneSelect(rowData, sectionID, rowID) } underlayColor={"lightgrey"}>

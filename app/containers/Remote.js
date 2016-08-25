@@ -8,79 +8,6 @@ import { Screen } from '../components/mobile/Screen'
 import { Section } from '../components/mobile/Section'
 import { api, apiUtil } from '../api'
 
-let data = [
-  {
-    name: "Zone 1",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 2",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 3",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 4",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 5",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 6",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 7",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 8",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 9",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 10",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 11",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 12",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 13",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  },
-  {
-    name: "Zone 14",
-    selected: false,
-    running: { state: false, timeoutID: null }
-  }
-]
-
 let interval
 
 export const Remote = React.createClass({
@@ -139,6 +66,25 @@ export const Remote = React.createClass({
     })
 
     this.setState({
+      data: data
+    })
+  },
+  runZones(){
+    let data = this.state.data.slice()
+    let selectedTime = this.state.selectedTime * 60
+    let toApi = []
+    data.forEach(function(zone, index){
+      if(zone.selected === true){
+
+        toApi.push({ id: zone.id, duration: selectedTime, sortOrder: toApi.length + 1 })
+        data[index] = { ...zone, selected: false }
+
+      }
+    })
+    api.runZones(toApi)
+
+    this.setState({
+      modalVisible: false,
       data: data
     })
   },

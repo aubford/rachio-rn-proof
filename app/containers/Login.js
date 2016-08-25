@@ -1,7 +1,7 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
-import { Platform, StatusBar } from 'react-native'
-
+import { Platform, StatusBar, Text } from 'react-native'
+import { api, apiUtil } from '../api'
 
 import { Button } from '../components/mobile/Button'
 import { Section } from '../components/mobile/Section'
@@ -21,19 +21,22 @@ if ( Platform && Platform.OS === 'web' ){
   var ScreenSw = WebScreen
   var LogoSw = WebLogo
   var InputSw = WebInput
+  var TextSw = React.createClass({ render(){ return <div style={this.props.style}>{this.props.children}</div> } })
 }else{
   var ButtonSw = Button
   var SectionSw = Section
   var ScreenSw = Screen
   var LogoSw = Logo
   var InputSw = Input
+  var TextSw = Text
 }
 
 export const Login = React.createClass({
   getInitialState(){
     return {
       password: "",
-      username: ""
+      username: "",
+      showValidation: false
     }
   },
   componentDidMount(){
@@ -43,13 +46,25 @@ export const Login = React.createClass({
   },
   login(){
     if(this.state.password !== "" && this.state.username !== ""){
-      if( Platform && Platform.OS !== 'web'){
-        this.props.navigator.push({
-          title: 'Remote'
-        })
-      }else{
-        browserHistory.push( '/remote' )
-      }
+
+      api.login(this.state.username, this.state.password).then((res)=> {
+        if(res.username === this.state.username){
+          this.setState({ showValidation: false, password: "", username: ""})
+
+          if( Platform && Platform.OS !== 'web'){
+            this.props.navigator.push({
+              title: 'Remote'
+            })
+          }else{
+            browserHistory.push( '/remote' )
+          }
+
+        }else{
+          this.setState({ showValidation: true, password: "", username: "" })
+        }
+      })
+
+
     }
   },
   handleInputChange(evt, type){
@@ -66,7 +81,7 @@ export const Login = React.createClass({
         <SectionSw style={ styles.inputContainer }>
 
           <InputSw
-            value= { this.state.username }
+            value={ this.state.username }
             onChange={ (evt) => this.handleInputChange(evt, "username") }
             placeholder="Username"
             />
@@ -76,6 +91,8 @@ export const Login = React.createClass({
             onChange={ (evt) => this.handleInputChange(evt, "password") }
             placeholder="Password"
             />
+
+          { this.state.showValidation && <TextSw style={styles.validation}>Bad Credentials</TextSw> }
 
         </SectionSw>
 
@@ -99,6 +116,9 @@ export const Login = React.createClass({
 const styles = {
   screen: {
     backgroundColor: "#00283A"
+  },
+  validation: {
+    color: "red"
   },
   inputContainer: {
     flex: 6,

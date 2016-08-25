@@ -1,4 +1,28 @@
 export const api = {
+  login: function(username, password){
+    return fetch('https://api.rach.io/1/public/person/info',
+      {
+        headers: {
+          "Authorization": "Bearer " + password,
+          "Content-Type":"application/json"
+        },
+        method: "GET"
+      }
+    ).then((res)=> res.json()).then((res)=> {
+      return this.getUserInfo(res.id, password).then((res)=> res.json())
+    })
+  },
+  getUserInfo: function(id, password){
+    return fetch('https://api.rach.io/1/public/person/' + id,
+      {
+        headers: {
+          "Authorization": "Bearer " + password,
+          "Content-Type":"application/json"
+        },
+        method: "GET"
+      }
+    )
+  },
   getDeviceInfo: function(){
     return fetch('https://api.rach.io/1/public/device/c761bfa0-4c49-4b4f-8a79-04e42bea881a',
     {
@@ -10,15 +34,17 @@ export const api = {
     })
   },
 
-  runZone: function(){
+  runZones: function(zones){
+
+    let body = JSON.stringify({ zones: zones })
     return fetch('https://api.rach.io/1/public/zone/start_multiple',
       {
         headers: {
           "Authorization": "Bearer c3667b81-92a6-4913-b83c-64cc713cbc1e",
           "Content-Type":"application/json"
         },
-        method: "PUT",
-        body: '{ "zones" : []}'
+        method: "put",
+        body: body
       })
   },
   getEvents: function(){
@@ -49,7 +75,6 @@ export const apiUtil = {
         })
     })
 
-    console.log("init")
     return output
   },
   getZoneStatus: function(events, zones){
@@ -68,15 +93,12 @@ export const apiUtil = {
         event.subType === "ZONE_STARTED" ? lastEvents[eventZoneId].isRunning = true : lastEvents[eventZoneId].isRunning = false
       }
     })
-    newZones.forEach(function(zone){
+    newZones.forEach(function(zone, index){
       if(lastEvents[zone.id]){
-        zone.running = lastEvents[zone.id].isRunning
+        newZones[index] = {...zone, running: lastEvents[zone.id].isRunning}
       }
     })
-    newZones.forEach(function(e){
-    })
 
-    console.log('gzs', newZones)
     return newZones
 
   }

@@ -58,7 +58,7 @@ function timeGenerator(){
   for(var i=10; i < 60; i+=5){
     output.push({label: i + " Minutes", value: i})
   }
-  for(var i=60; i < 480; i+=60){
+  for(var i=60; i <= 180; i+=60){
     output.push({label: (i / 60) + " Hours", value: i})
   }
   return output
