@@ -1,5 +1,4 @@
 import React from 'react';
-import { Platform } from 'react-native'
 import { Button } from '../components/mobile/Button'
 import { RunZoneModal } from '../components/mobile/RunZoneModal'
 import { Header } from '../components/mobile/Header'
@@ -7,6 +6,7 @@ import { ZoneList } from '../components/mobile/ZoneList'
 import { Screen } from '../components/mobile/Screen'
 import { Section } from '../components/mobile/Section'
 import { api, apiUtil } from '../api'
+import { native } from '../util'
 
 let interval
 
@@ -126,10 +126,7 @@ export const Remote = React.createClass({
           data={ this.state.data }
           />
 
-        {
-        Platform &&
-        Platform.OS !== 'web' &&
-
+        { native &&
         <RunZoneModal
           modalVisible={ this.state.modalVisible }
           selectedValue={ this.state.selectedTime }

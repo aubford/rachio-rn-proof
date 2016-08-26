@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "dev": "webpack-dev-server --port 3000 --config webpack.config.js --inline --hot --colors --quiet --history-api-fallback",
+    "ro": "webpack-dev-server --port 3000 --config webpackB.config.js --inline --hot --colors --quiet --history-api-fallback",
+    "build-ro": "webpack --config webpackB.config.js",
     "clean": "npm cache clean; watchman watch-del-all; rm -fr $TEMPDIR/react-*;"
   },
   "dependencies": {
@@ -22,6 +24,7 @@
     "babel-preset-stage-1": "^6.5.0",
     "babel-runtime": "^6.9.2",
     "history": "2.1.0",
+    "ignore-loader": "^0.1.1",
     "image-webpack-loader": "1.8.0",
     "react": "15.3.0",
     "react-dom": "15.0.1",

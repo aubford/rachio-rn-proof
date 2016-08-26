@@ -2,16 +2,16 @@ import React from 'react'
 import { stl } from '../../util'
 const pt = React.PropTypes
 
-export const WebInput = React.createClass({
+export const Input = React.createClass({
   propTypes: {
     value: pt.string,
-    onChangeText: pt.func
+    onChange: pt.func
   },
   render(){
     return(
       <input
         value= { this.props.value }
-        style={stl( styles )}
+        style={ stl( styles ) }
         onChange={ this.props.onChange }
         placeholder= { this.props.placeholder }
         />

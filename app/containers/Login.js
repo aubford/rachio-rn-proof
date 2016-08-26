@@ -1,34 +1,36 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
-import { Platform, StatusBar, Text } from 'react-native'
 import { api, apiUtil } from '../api'
+import { native, platformSelect, lightStatusBar } from '../util'
 
-import { Button } from '../components/mobile/Button'
-import { Section } from '../components/mobile/Section'
-import { Screen } from '../components/mobile/Screen'
-import { Logo } from '../components/mobile/Logo'
-import { Input } from '../components/mobile/Input'
+import { Button as mButton} from '../components/mobile/Button'
+import { Section as mSection} from '../components/mobile/Section'
+import { Screen as mScreen} from '../components/mobile/Screen'
+import { Logo as mLogo } from '../components/mobile/Logo'
+import { Input as mInput } from '../components/mobile/Input'
+import { P as mP } from '../components/mobile/P'
+import { Button as wButton} from '../components/web/Button'
+import { Section as wSection} from '../components/web/Section'
+import { Screen as wScreen} from '../components/web/Screen'
+import { Logo as wLogo} from '../components/web/Logo'
+import { Input as wInput} from '../components/web/Input'
+import { P as wP} from '../components/web/P'
 
-import { WebButton } from '../components/web/WebButton'
-import { WebSection } from '../components/web/WebSection'
-import { WebScreen } from '../components/web/WebScreen'
-import { WebLogo } from '../components/web/WebLogo'
-import { WebInput } from '../components/web/WebInput'
 
-if ( Platform && Platform.OS === 'web' ){
-  var ButtonSw = WebButton
-  var SectionSw = WebSection
-  var ScreenSw = WebScreen
-  var LogoSw = WebLogo
-  var InputSw = WebInput
-  var TextSw = React.createClass({ render(){ return <div style={this.props.style}>{this.props.children}</div> } })
+if(native){
+  var Button = mButton
+  var Section = mSection
+  var Screen = mScreen
+  var Logo = mLogo
+  var Input = mInput
+  var Text = mP
 }else{
-  var ButtonSw = Button
-  var SectionSw = Section
-  var ScreenSw = Screen
-  var LogoSw = Logo
-  var InputSw = Input
-  var TextSw = Text
+  var Button = wButton
+  var Section = wSection
+  var Screen = wScreen
+  var Logo = wLogo
+  var Input = wInput
+  var Text = wP
 }
 
 export const Login = React.createClass({
@@ -40,9 +42,7 @@ export const Login = React.createClass({
     }
   },
   componentDidMount(){
-    if ( Platform && Platform.OS !== 'web' ){
-      StatusBar.setBarStyle("light-content")
-    }
+    lightStatusBar()
   },
   login(){
     if(this.state.password !== "" && this.state.username !== ""){
@@ -51,7 +51,7 @@ export const Login = React.createClass({
         if(res.username === this.state.username){
           this.setState({ showValidation: false, password: "", username: ""})
 
-          if( Platform && Platform.OS !== 'web'){
+          if( native ){
             this.props.navigator.push({
               title: 'Remote'
             })
@@ -69,36 +69,36 @@ export const Login = React.createClass({
   },
   handleInputChange(evt, type){
     let update = {}
-    update[type] = evt.target && evt.target.value ? evt.target.value : evt
+    update[type] = evt.target ? evt.target.value : evt
     this.setState( update )
   },
   render(){
     return (
-      <ScreenSw style={ styles.screen }>
+      <Screen style={ styles.screen }>
 
-        <LogoSw />
+        <Logo />
 
-        <SectionSw style={ styles.inputContainer }>
+        <Section style={ styles.inputContainer }>
 
-          <InputSw
+          { this.state.showValidation && <Text style={styles.validation}>Bad Credentials</Text> }
+          <Input
             value={ this.state.username }
             onChange={ (evt) => this.handleInputChange(evt, "username") }
             placeholder="Username"
             />
 
-          <InputSw
+          <Input
             value= { this.state.password }
             onChange={ (evt) => this.handleInputChange(evt, "password") }
             placeholder="Password"
             />
 
-          { this.state.showValidation && <TextSw style={styles.validation}>Bad Credentials</TextSw> }
 
-        </SectionSw>
+        </Section>
 
-        <SectionSw style={ styles.buttonsContainer }>
+        <Section style={ styles.buttonsContainer }>
 
-          <ButtonSw
+          <Button
             text="Log In"
             textStyle={ styles.buttonText }
             style={ styles.button }
@@ -106,9 +106,9 @@ export const Login = React.createClass({
             onClick={ this.login }
             />
 
-        </SectionSw>
+        </Section>
 
-      </ScreenSw>
+      </Screen>
     )
   }
 })
@@ -118,19 +118,33 @@ const styles = {
     backgroundColor: "#00283A"
   },
   validation: {
-    color: "red"
-  },
-  inputContainer: {
-    flex: 6,
-    padding: 15,
-    alignItems: "center",
-
-    ...Platform.select({
-      web: {
-        flex: 1,
-        justifyContent: "center"
+    color: "red",
+    position: "absolute",
+    top: 15,
+    ...platformSelect({
+      ios: {
+        top: 0
       },
       android: {
+        top: 0
+      }
+    })
+  },
+  inputContainer: {
+    flex: 1,
+    padding: 15,
+    position: 'relative',
+    alignItems: "center",
+    justifyContent: "center",
+
+    ...platformSelect({
+      ios: {
+        flex: 6,
+        justifyContent: "flex-start"
+      },
+      android: {
+        flex: 6,
+        justifyContent: "flex-start",
         alignItems: "stretch"
       }
     })
@@ -142,15 +156,16 @@ const styles = {
     justifyContent: "center"
   },
   button: {
-    flex: 1,
+    borderWidth: 2,
+    borderColor: "chartreuse",
 
-    ...Platform.select({
-      web: {
-        flex: null,
-        borderWidth: 2,
-        borderColor: "chartreuse"
+    ...platformSelect({
+      android: {
+        flex: 1,
+        borderWidth: 0
       },
       ios: {
+        flex: 1,
         borderWidth: 2,
         borderColor: "chartreuse"
       }

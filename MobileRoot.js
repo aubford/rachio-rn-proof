@@ -14,15 +14,13 @@ export const Root = React.createClass({
     }
     return <Text>Error: Scene render fail</Text>
   },
-
-
   render() {
     return (
       <Navigator
         initialRoute={ routes[0] }
         initialRouteStack={ routes }
         renderScene= { this.renderScene }
-        configureScene= { ( route,routeStack ) => Navigator.SceneConfigs.HorizontalSwipeJump}
+        configureScene= { ( route,routeStack ) => Navigator.SceneConfigs.HorizontalSwipeJump }
         />
     )
   }

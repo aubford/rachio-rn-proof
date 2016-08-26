@@ -14,6 +14,7 @@ export const Input = React.createClass({
         style={ styles.input }
         onChangeText={ this.props.onChange }
         placeholder= { this.props.placeholder }
+        autoCapitalize='none'
         />
     )
   }

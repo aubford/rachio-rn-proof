@@ -2,7 +2,7 @@ import React from 'react'
 import { stl } from '../../util'
 
 
-export const WebLogo = React.createClass({
+export const Logo = React.createClass({
   render(){
     return(
       <div style={stl( styles.logoContainer )}>

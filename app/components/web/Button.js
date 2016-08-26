@@ -2,7 +2,7 @@ import React from 'react'
 import { stl } from '../../util'
 const pt = React.PropTypes
 
-export const WebButton = React.createClass({
+export const Button = React.createClass({
 
   propTypes: {
     style: pt.object,
