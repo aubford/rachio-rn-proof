@@ -1,14 +1,12 @@
 import React from 'react';
-import { Button } from '../components/mobile/Button'
-import { RunZoneModal } from '../components/mobile/RunZoneModal'
-import { Header } from '../components/mobile/Header'
-import { ZoneList } from '../components/mobile/ZoneList'
-import { Screen } from '../components/mobile/Screen'
-import { Section } from '../components/mobile/Section'
+import { Button } from '../components/component-switch'
+import { RunZoneModal } from '../components/component-switch'
+import { Header } from '../components/component-switch'
+import { ZoneList } from '../components/component-switch'
+import { Screen } from '../components/component-switch'
+import { Section } from '../components/component-switch'
 import { api, apiUtil } from '../api'
 import { native } from '../util'
-
-let interval
 
 export const Remote = React.createClass({
   getInitialState(){
@@ -34,11 +32,6 @@ export const Remote = React.createClass({
       this.setZoneStatus()
     })
 
-    interval = setInterval(this.setZoneStatus, 2000)
-
-  },
-  componentWillUnmount(){
-    clearInterval(interval)
   },
   handleZoneSelect(rowData, sectionID, rowID){
     let index = Number(rowID)
@@ -121,7 +114,6 @@ export const Remote = React.createClass({
         </Section>
 
         <ZoneList
-          style={ { flex: 1 } }
           onZoneSelect={ this.handleZoneSelect }
           data={ this.state.data }
           />
@@ -152,9 +144,6 @@ let styles = {
       borderBottomWidth: .5,
       borderTopWidth: .5,
       borderColor: "black"
-    },
-    zoneList: {
-      flex: 25
     },
     rowContainer: {
       padding: 20,

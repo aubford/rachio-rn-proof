@@ -1,6 +1,8 @@
 import { defaults } from './styles/web'
 import { Platform, StatusBar } from 'react-native'
 
+export var native = Platform && Platform.OS == 'android' || Platform && Platform.OS == 'ios'
+
 export function stl(){
   let args = [...arguments]
   let styles = {}
@@ -9,13 +11,11 @@ export function stl(){
     styles = { ...styles, ...e }
   })
 
-  return { ...defaults, ...styles}
+  return { ...defaults, ...styles }
 }
 
-export var native = Platform.OS == 'android' || Platform.OS == 'ios'
-
 export function platformSelect(input){
-    return Platform.OS != 'web' ? Platform.select(input) : {}
+  return native ? Platform.select(input) : {}
 }
 
 export function lightStatusBar(){

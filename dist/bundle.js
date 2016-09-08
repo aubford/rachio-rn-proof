@@ -65,7 +65,7 @@
 
 	var _Login = __webpack_require__(239);
 
-	var _Remote = __webpack_require__(257);
+	var _Remote = __webpack_require__(264);
 
 	var _util = __webpack_require__(241);
 
@@ -27190,47 +27190,9 @@
 
 	var _util = __webpack_require__(241);
 
-	var _Button = __webpack_require__(244);
-
-	var _Section = __webpack_require__(245);
-
-	var _Screen = __webpack_require__(246);
-
-	var _Logo = __webpack_require__(247);
-
-	var _Input = __webpack_require__(248);
-
-	var _P = __webpack_require__(249);
-
-	var _Button2 = __webpack_require__(250);
-
-	var _Section2 = __webpack_require__(251);
-
-	var _Screen2 = __webpack_require__(252);
-
-	var _Logo2 = __webpack_require__(253);
-
-	var _Input2 = __webpack_require__(255);
-
-	var _P2 = __webpack_require__(256);
+	var _componentSwitch = __webpack_require__(244);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	if (_util.native) {
-	  var Button = _Button.Button;
-	  var Section = _Section.Section;
-	  var Screen = _Screen.Screen;
-	  var Logo = _Logo.Logo;
-	  var Input = _Input.Input;
-	  var Text = _P.P;
-	} else {
-	  var Button = _Button2.Button;
-	  var Section = _Section2.Section;
-	  var Screen = _Screen2.Screen;
-	  var Logo = _Logo2.Logo;
-	  var Input = _Input2.Input;
-	  var Text = _P2.P;
-	}
 
 	var Login = exports.Login = _react2.default.createClass({
 	  displayName: 'Login',
@@ -27275,25 +27237,25 @@
 	    var _this2 = this;
 
 	    return _react2.default.createElement(
-	      Screen,
+	      _componentSwitch.Screen,
 	      { style: styles.screen },
-	      _react2.default.createElement(Logo, null),
+	      _react2.default.createElement(_componentSwitch.Logo, null),
 	      _react2.default.createElement(
-	        Section,
+	        _componentSwitch.Section,
 	        { style: styles.inputContainer },
 	        this.state.showValidation && _react2.default.createElement(
-	          Text,
+	          _componentSwitch.P,
 	          { style: styles.validation },
 	          'Bad Credentials'
 	        ),
-	        _react2.default.createElement(Input, {
+	        _react2.default.createElement(_componentSwitch.Input, {
 	          value: this.state.username,
 	          onChange: function onChange(evt) {
 	            return _this2.handleInputChange(evt, "username");
 	          },
 	          placeholder: 'Username'
 	        }),
-	        _react2.default.createElement(Input, {
+	        _react2.default.createElement(_componentSwitch.Input, {
 	          value: this.state.password,
 	          onChange: function onChange(evt) {
 	            return _this2.handleInputChange(evt, "password");
@@ -27302,9 +27264,9 @@
 	        })
 	      ),
 	      _react2.default.createElement(
-	        Section,
+	        _componentSwitch.Section,
 	        { style: styles.buttonsContainer },
-	        _react2.default.createElement(Button, {
+	        _react2.default.createElement(_componentSwitch.Button, {
 	          text: 'Log In',
 	          textStyle: styles.buttonText,
 	          style: styles.button,
@@ -27516,6 +27478,8 @@
 
 	var _reactNative = __webpack_require__(243);
 
+	var native = exports.native = _reactNative.Platform && _reactNative.Platform.OS == 'android' || _reactNative.Platform && _reactNative.Platform.OS == 'ios';
+
 	function stl() {
 	  var args = [].concat(Array.prototype.slice.call(arguments));
 	  var styles = {};
@@ -27527,10 +27491,8 @@
 	  return _extends({}, _web.defaults, styles);
 	}
 
-	var native = exports.native = _reactNative.Platform.OS == 'android' || _reactNative.Platform.OS == 'ios';
-
 	function platformSelect(input) {
-	  return _reactNative.Platform ? _reactNative.Platform.select(input) : {};
+	  return native ? _reactNative.Platform.select(input) : {};
 	}
 
 	function lightStatusBar() {
@@ -27580,9 +27542,94 @@
 
 /***/ },
 /* 244 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Header = exports.RunZoneModal = exports.ZoneList = exports.P = exports.Input = exports.Logo = exports.Screen = exports.Section = exports.Button = undefined;
+
+	var _util = __webpack_require__(241);
+
+	var _Button = __webpack_require__(245);
+
+	var _Section = __webpack_require__(246);
+
+	var _Screen = __webpack_require__(247);
+
+	var _Logo = __webpack_require__(248);
+
+	var _Input = __webpack_require__(249);
+
+	var _P = __webpack_require__(250);
+
+	var _ZoneList = __webpack_require__(251);
+
+	var _RunZoneModal = __webpack_require__(252);
+
+	var _Header = __webpack_require__(253);
+
+	var _Button2 = __webpack_require__(254);
+
+	var _Section2 = __webpack_require__(255);
+
+	var _Screen2 = __webpack_require__(256);
+
+	var _Logo2 = __webpack_require__(257);
+
+	var _Input2 = __webpack_require__(259);
+
+	var _P2 = __webpack_require__(260);
+
+	var _ZoneList2 = __webpack_require__(261);
+
+	var _RunZoneModal2 = __webpack_require__(262);
+
+	var _Header2 = __webpack_require__(263);
+
+	var Button;
+	var Section;
+	var Screen;
+	var Logo;
+	var Input;
+	var P;
+	var ZoneList;
+	var RunZoneModal;
+	var Header;
+
+	if (_util.native) {
+	  exports.Button = Button = _Button.Button;
+	  exports.Section = Section = _Section.Section;
+	  exports.Screen = Screen = _Screen.Screen;
+	  exports.Logo = Logo = _Logo.Logo;
+	  exports.Input = Input = _Input.Input;
+	  exports.P = P = _P.P;
+	  exports.ZoneList = ZoneList = _ZoneList.ZoneList;
+	  exports.RunZoneModal = RunZoneModal = _RunZoneModal.RunZoneModal;
+	  exports.Header = Header = _Header.Header;
+	} else {
+	  exports.Button = Button = _Button2.Button;
+	  exports.Section = Section = _Section2.Section;
+	  exports.Screen = Screen = _Screen2.Screen;
+	  exports.Logo = Logo = _Logo2.Logo;
+	  exports.Input = Input = _Input2.Input;
+	  exports.P = P = _P2.P;
+	  exports.ZoneList = ZoneList = _ZoneList2.ZoneList;
+	  exports.RunZoneModal = RunZoneModal = _RunZoneModal2.RunZoneModal;
+	  exports.Header = Header = _Header2.Header;
+	}
+
+	exports.Button = Button;
+	exports.Section = Section;
+	exports.Screen = Screen;
+	exports.Logo = Logo;
+	exports.Input = Input;
+	exports.P = P;
+	exports.ZoneList = ZoneList;
+	exports.RunZoneModal = RunZoneModal;
+	exports.Header = Header;
 
 /***/ },
 /* 245 */
@@ -27616,6 +27663,30 @@
 
 /***/ },
 /* 250 */
+/***/ function(module, exports) {
+
+	
+
+/***/ },
+/* 251 */
+/***/ function(module, exports) {
+
+	
+
+/***/ },
+/* 252 */
+/***/ function(module, exports) {
+
+	
+
+/***/ },
+/* 253 */
+/***/ function(module, exports) {
+
+	
+
+/***/ },
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27695,7 +27766,7 @@
 	};
 
 /***/ },
-/* 251 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27732,7 +27803,7 @@
 	});
 
 /***/ },
-/* 252 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27769,7 +27840,7 @@
 	});
 
 /***/ },
-/* 253 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27793,7 +27864,7 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { style: (0, _util.stl)(styles.logoContainer) },
-	      _react2.default.createElement('img', { src: __webpack_require__(254),
+	      _react2.default.createElement('img', { src: __webpack_require__(258),
 	        style: (0, _util.stl)(styles.logo)
 	      })
 	    );
@@ -27812,13 +27883,13 @@
 	};
 
 /***/ },
-/* 254 */
+/* 258 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,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"
 
 /***/ },
-/* 255 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27866,7 +27937,7 @@
 	};
 
 /***/ },
-/* 256 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27894,7 +27965,161 @@
 	});
 
 /***/ },
-/* 257 */
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ZoneList = undefined;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _util = __webpack_require__(241);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ZoneList = exports.ZoneList = _react2.default.createClass({
+	  displayName: 'ZoneList',
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { style: (0, _util.stl)(styles.main) },
+	      _react2.default.createElement(
+	        'p',
+	        { style: (0, _util.stl)(styles.p) },
+	        'Zone'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { style: (0, _util.stl)(styles.p) },
+	        'Zone'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { style: (0, _util.stl)(styles.p) },
+	        'Zone'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { style: (0, _util.stl)(styles.p) },
+	        'Zone'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { style: (0, _util.stl)(styles.p) },
+	        'Zone'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { style: (0, _util.stl)(styles.p) },
+	        'Zone'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { style: (0, _util.stl)(styles.p) },
+	        'Zone'
+	      )
+	    );
+	  }
+	});
+
+	var styles = {
+	  main: {
+	    flex: 8
+	  },
+	  p: {
+	    fontSize: 30,
+	    marginLeft: 100
+	  }
+	};
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.RunZoneModal = undefined;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var RunZoneModal = exports.RunZoneModal = _react2.default.createClass({
+	  displayName: 'RunZoneModal',
+	  render: function render() {
+	    return _react2.default.createElement('div', null);
+	  }
+	});
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Header = undefined;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _util = __webpack_require__(241);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var pt = _react2.default.PropTypes;
+
+	var Header = exports.Header = _react2.default.createClass({
+	  displayName: 'Header',
+
+	  propTypes: {
+	    text: pt.string
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      {
+	        style: (0, _util.stl)(styles.header) },
+	      _react2.default.createElement(
+	        'p',
+	        { style: (0, _util.stl)(styles.headerText) },
+	        ' ',
+	        this.props.text,
+	        ' '
+	      )
+	    );
+	  }
+	});
+
+	var styles = {
+	  header: {
+	    flex: 2,
+	    backgroundColor: "#03A9F4",
+	    alignItems: "center",
+	    justifyContent: "center"
+	  },
+	  headerText: {
+	    fontSize: 40,
+	    color: "white"
+	  }
+	};
+
+/***/ },
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27910,25 +28135,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Button = __webpack_require__(244);
-
-	var _RunZoneModal = __webpack_require__(258);
-
-	var _Header = __webpack_require__(259);
-
-	var _ZoneList = __webpack_require__(260);
-
-	var _Screen = __webpack_require__(246);
-
-	var _Section = __webpack_require__(245);
+	var _componentSwitch = __webpack_require__(244);
 
 	var _api = __webpack_require__(240);
 
 	var _util = __webpack_require__(241);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var interval = void 0;
 
 	var Remote = exports.Remote = _react2.default.createClass({
 	  displayName: 'Remote',
@@ -27960,11 +28173,6 @@
 	      _this2.setState({ data: _api.apiUtil.initZones(res.zones) });
 	      _this2.setZoneStatus();
 	    });
-
-	    interval = setInterval(this.setZoneStatus, 2000);
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    clearInterval(interval);
 	  },
 	  handleZoneSelect: function handleZoneSelect(rowData, sectionID, rowID) {
 	    var index = Number(rowID);
@@ -28028,30 +28236,29 @@
 	    var _this3 = this;
 
 	    return _react2.default.createElement(
-	      _Screen.Screen,
+	      _componentSwitch.Screen,
 	      null,
-	      _react2.default.createElement(_Header.Header, {
+	      _react2.default.createElement(_componentSwitch.Header, {
 	        text: 'Remote Control'
 	      }),
 	      _react2.default.createElement(
-	        _Section.Section,
+	        _componentSwitch.Section,
 	        {
 	          style: styles.startZoneContainer },
-	        _react2.default.createElement(_Button.Button, {
+	        _react2.default.createElement(_componentSwitch.Button, {
 	          text: 'Run Selected Zones',
 	          onClick: this.handleRunSelectedZones
 	        }),
-	        _react2.default.createElement(_Button.Button, {
+	        _react2.default.createElement(_componentSwitch.Button, {
 	          text: 'Select All',
 	          onClick: this.handleSelectAll
 	        })
 	      ),
-	      _react2.default.createElement(_ZoneList.ZoneList, {
-	        style: { flex: 1 },
+	      _react2.default.createElement(_componentSwitch.ZoneList, {
 	        onZoneSelect: this.handleZoneSelect,
 	        data: this.state.data
 	      }),
-	      _util.native && _react2.default.createElement(_RunZoneModal.RunZoneModal, {
+	      _util.native && _react2.default.createElement(_componentSwitch.RunZoneModal, {
 	        modalVisible: this.state.modalVisible,
 	        selectedValue: this.state.selectedTime,
 	        onValueChange: function onValueChange(value) {
@@ -28075,9 +28282,6 @@
 	    borderTopWidth: .5,
 	    borderColor: "black"
 	  },
-	  zoneList: {
-	    flex: 25
-	  },
 	  rowContainer: {
 	    padding: 20,
 	    flexDirection: "row",
@@ -28098,24 +28302,6 @@
 	    fontSize: 8
 	  }
 	};
-
-/***/ },
-/* 258 */
-/***/ function(module, exports) {
-
-	
-
-/***/ },
-/* 259 */
-/***/ function(module, exports) {
-
-	
-
-/***/ },
-/* 260 */
-/***/ function(module, exports) {
-
-	
 
 /***/ }
 /******/ ]);

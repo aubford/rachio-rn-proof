@@ -3,35 +3,13 @@ import { browserHistory } from 'react-router'
 import { api, apiUtil } from '../api'
 import { native, platformSelect, lightStatusBar } from '../util'
 
-import { Button as mButton} from '../components/mobile/Button'
-import { Section as mSection} from '../components/mobile/Section'
-import { Screen as mScreen} from '../components/mobile/Screen'
-import { Logo as mLogo } from '../components/mobile/Logo'
-import { Input as mInput } from '../components/mobile/Input'
-import { P as mP } from '../components/mobile/P'
-import { Button as wButton} from '../components/web/Button'
-import { Section as wSection} from '../components/web/Section'
-import { Screen as wScreen} from '../components/web/Screen'
-import { Logo as wLogo} from '../components/web/Logo'
-import { Input as wInput} from '../components/web/Input'
-import { P as wP} from '../components/web/P'
+import { Button } from '../components/component-switch'
+import { Section } from '../components/component-switch'
+import { Screen } from '../components/component-switch'
+import { Logo } from '../components/component-switch'
+import { Input } from '../components/component-switch'
+import { P } from '../components/component-switch'
 
-
-if(native){
-  var Button = mButton
-  var Section = mSection
-  var Screen = mScreen
-  var Logo = mLogo
-  var Input = mInput
-  var Text = mP
-}else{
-  var Button = wButton
-  var Section = wSection
-  var Screen = wScreen
-  var Logo = wLogo
-  var Input = wInput
-  var Text = wP
-}
 
 export const Login = React.createClass({
   getInitialState(){
@@ -50,7 +28,7 @@ export const Login = React.createClass({
       api.login(this.state.username, this.state.password).then((res)=> {
         if(res.username === this.state.username){
           this.setState({ showValidation: false, password: "", username: ""})
-
+          
           if( native ){
             this.props.navigator.push({
               title: 'Remote'
@@ -63,8 +41,6 @@ export const Login = React.createClass({
           this.setState({ showValidation: true, password: "", username: "" })
         }
       })
-
-
     }
   },
   handleInputChange(evt, type){
@@ -80,7 +56,7 @@ export const Login = React.createClass({
 
         <Section style={ styles.inputContainer }>
 
-          { this.state.showValidation && <Text style={styles.validation}>Bad Credentials</Text> }
+          { this.state.showValidation && <P style={styles.validation}>Bad Credentials</P> }
           <Input
             value={ this.state.username }
             onChange={ (evt) => this.handleInputChange(evt, "username") }

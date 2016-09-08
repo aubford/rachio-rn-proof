@@ -1,1 +1,1 @@
-export var Platform = { OS:'web'}
+export var Platform = { OS : 'web' }
