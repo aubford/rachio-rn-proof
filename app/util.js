@@ -35,9 +35,8 @@ export function setItem(key, value){
 
 export function getItem(key){
   if(native){
-    AsyncStorage.getItem(key)
+    return AsyncStorage.getItem(key)
   }else{
-    console.log("h", typeof key)
     return localStorage.getItem(key)
   }
 }

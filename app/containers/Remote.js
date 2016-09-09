@@ -8,6 +8,8 @@ import { Section } from '../components/component-switch'
 import { api, apiUtil } from '../api'
 import { native, ios } from '../util'
 
+let interval
+
 export const Remote = React.createClass({
   getInitialState(){
 
@@ -32,6 +34,11 @@ export const Remote = React.createClass({
       this.setZoneStatus()
     })
 
+     interval = setInterval(this.setZoneStatus, 2000)
+
+  },
+  componentWillUnmount(){
+    clearInterval(interval)
   },
   handleZoneSelect(rowData, sectionID, rowID){
     let index = Number(rowID)

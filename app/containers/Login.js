@@ -21,19 +21,29 @@ export const Login = React.createClass({
   },
   componentDidMount(){
     lightStatusBar()
-  
-    if( getItem('rachioRnUsername') ){
 
+    if( !native && getItem('rachioRnUsername') ){
       this.setState({
         password: getItem('rachioRnPassword'),
         username: getItem('rachioRnUsername')
       })
     }
 
+    if( native ){
+      Promise.all([ getItem('rachioRnUsername'), getItem('rachioRnPassword') ])
+      .then((res) => {
+        if(res[0]){
+          this.setState({
+            username: res[0],
+            password: res[1]
+          })
+        }
+      })
+    }
+
   },
   login(){
     if(this.state.password !== "" && this.state.username !== ""){
-
       api.login(this.state.username, this.state.password).then((res)=> {
         if(res.username === this.state.username){
 
