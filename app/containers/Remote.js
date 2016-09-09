@@ -6,7 +6,7 @@ import { ZoneList } from '../components/component-switch'
 import { Screen } from '../components/component-switch'
 import { Section } from '../components/component-switch'
 import { api, apiUtil } from '../api'
-import { native } from '../util'
+import { native, ios } from '../util'
 
 export const Remote = React.createClass({
   getInitialState(){
@@ -97,8 +97,11 @@ export const Remote = React.createClass({
     return (
       <Screen>
 
+
+
         <Header
           text="Remote Control"
+          navigator={ this.props.navigator }
           />
 
         <Section
@@ -135,6 +138,12 @@ export const Remote = React.createClass({
 })
 
 let styles = {
+    backButton: {
+      alignSelf: "flex-start",
+      backgroundColor: "red",
+      top: 0,
+      left: 0
+    },
     startZoneContainer: {
       flex: 2,
       flexDirection: "row",

@@ -1,7 +1,8 @@
 import { defaults } from './styles/web'
-import { Platform, StatusBar } from 'react-native'
+import { Platform, StatusBar, AsyncStorage } from 'react-native'
 
 export var native = Platform && Platform.OS == 'android' || Platform && Platform.OS == 'ios'
+export var ios = Platform && Platform.OS == 'ios'
 
 export function stl(){
   let args = [...arguments]
@@ -24,18 +25,19 @@ export function lightStatusBar(){
   }
 }
 
-export function setCred(key, value){
+export function setItem(key, value){
   if(native){
-
+    AsyncStorage.setItem(key, value)
   }else{
     localStorage.setItem(key, value)
   }
 }
 
-export function getCred(key, value){
+export function getItem(key){
   if(native){
-
+    AsyncStorage.getItem(key)
   }else{
-    localStorage.getItem(key, value)
+    console.log("h", typeof key)
+    return localStorage.getItem(key)
   }
 }

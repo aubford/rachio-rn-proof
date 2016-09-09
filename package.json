@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "dev": "webpack-dev-server --port 3000 --config webpack.config.js --inline --hot --colors --quiet --history-api-fallback",
-    "ro": "webpack-dev-server --port 3000 --config webpackB.config.js --inline --hot --colors --quiet --history-api-fallback",
-    "build-ro": "webpack --config webpackB.config.js",
+    "ro": "webpack --config webpackB.config.js; webpack-dev-server --port 3000 --config webpackB.config.js --inline --hot --colors --quiet --history-api-fallback",
     "clean": "npm cache clean; watchman watch-del-all; rm -fr $TEMPDIR/react-*;"
   },
   "dependencies": {

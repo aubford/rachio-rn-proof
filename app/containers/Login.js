@@ -1,7 +1,7 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
 import { api, apiUtil } from '../api'
-import { native, platformSelect, lightStatusBar } from '../util'
+import { native, platformSelect, lightStatusBar, setItem, getItem } from '../util'
 
 import { Button } from '../components/component-switch'
 import { Section } from '../components/component-switch'
@@ -21,14 +21,26 @@ export const Login = React.createClass({
   },
   componentDidMount(){
     lightStatusBar()
+  
+    if( getItem('rachioRnUsername') ){
+
+      this.setState({
+        password: getItem('rachioRnPassword'),
+        username: getItem('rachioRnUsername')
+      })
+    }
+
   },
   login(){
     if(this.state.password !== "" && this.state.username !== ""){
 
       api.login(this.state.username, this.state.password).then((res)=> {
         if(res.username === this.state.username){
+
+          setItem('rachioRnUsername', res.username)
+          setItem('rachioRnPassword', this.state.password)
           this.setState({ showValidation: false, password: "", username: ""})
-          
+
           if( native ){
             this.props.navigator.push({
               title: 'Remote'

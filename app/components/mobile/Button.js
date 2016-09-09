@@ -15,12 +15,12 @@ export const Button = React.createClass({
   render(){
     return (
 
-      <TouchableHighlight style={ [ styles.button, { flexDirection: "row" }, this.props.style, { borderWidth: 0 } ] } onPress={ this.props.onClick } underlayColor={ this.props.underlayColor ? this.props.underlayColor : "rgba(3, 169, 244, .1)" }>
+      <TouchableHighlight style={[ styles.button, { flexDirection: "row" }, this.props.style, { borderWidth: 0 }]} onPress={ this.props.onClick } underlayColor={ this.props.underlayColor ? this.props.underlayColor : "rgba(3, 169, 244, .1)" }>
         <View
           style={ [ styles.button, this.props.style ] }>
           <Text style={ [ styles.buttonText, this.props.textStyle ] }> {this.props.text} </Text>
         </View>
-      </ TouchableHighlight>
+      </TouchableHighlight>
 
     )
   }

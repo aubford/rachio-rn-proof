@@ -27205,6 +27205,14 @@
 	  },
 	  componentDidMount: function componentDidMount() {
 	    (0, _util.lightStatusBar)();
+
+	    if ((0, _util.getItem)('rachioRnUsername')) {
+
+	      this.setState({
+	        password: (0, _util.getItem)('rachioRnPassword'),
+	        username: (0, _util.getItem)('rachioRnUsername')
+	      });
+	    }
 	  },
 	  login: function login() {
 	    var _this = this;
@@ -27213,6 +27221,9 @@
 
 	      _api.api.login(this.state.username, this.state.password).then(function (res) {
 	        if (res.username === _this.state.username) {
+
+	          (0, _util.setItem)('rachioRnUsername', res.username);
+	          (0, _util.setItem)('rachioRnPassword', _this.state.password);
 	          _this.setState({ showValidation: false, password: "", username: "" });
 
 	          if (_util.native) {
@@ -27464,21 +27475,24 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.native = undefined;
+	exports.ios = exports.native = undefined;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	exports.stl = stl;
 	exports.platformSelect = platformSelect;
 	exports.lightStatusBar = lightStatusBar;
-	exports.setCred = setCred;
-	exports.getCred = getCred;
+	exports.setItem = setItem;
+	exports.getItem = getItem;
 
 	var _web = __webpack_require__(242);
 
 	var _reactNative = __webpack_require__(243);
 
 	var native = exports.native = _reactNative.Platform && _reactNative.Platform.OS == 'android' || _reactNative.Platform && _reactNative.Platform.OS == 'ios';
+	var ios = exports.ios = _reactNative.Platform && _reactNative.Platform.OS == 'ios';
 
 	function stl() {
 	  var args = [].concat(Array.prototype.slice.call(arguments));
@@ -27501,15 +27515,20 @@
 	  }
 	}
 
-	function setCred(key, value) {
-	  if (native) {} else {
+	function setItem(key, value) {
+	  if (native) {
+	    _reactNative.AsyncStorage.setItem(key, value);
+	  } else {
 	    localStorage.setItem(key, value);
 	  }
 	}
 
-	function getCred(key, value) {
-	  if (native) {} else {
-	    localStorage.getItem(key, value);
+	function getItem(key) {
+	  if (native) {
+	    _reactNative.AsyncStorage.getItem(key);
+	  } else {
+	    console.log("h", typeof key === 'undefined' ? 'undefined' : _typeof(key));
+	    return localStorage.getItem(key);
 	  }
 	}
 
@@ -28272,6 +28291,12 @@
 	});
 
 	var styles = {
+	  backButton: {
+	    alignSelf: "flex-start",
+	    backgroundColor: "red",
+	    top: 0,
+	    left: 0
+	  },
 	  startZoneContainer: {
 	    flex: 2,
 	    flexDirection: "row",
