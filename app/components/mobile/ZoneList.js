@@ -5,7 +5,8 @@ let SortableListView = require('react-native-sortable-listview')
 const pt = React.PropTypes
 
 let RowComponent = React.createClass({
-  render(data, sectionID, rowID){
+  render(){
+
     return(
       <TouchableHighlight onPress={ () => this.props.onZoneSelect(this.props.data, sectionID, rowID) } underlayColor={"lightgrey"} { ...this.props.sortHandlers }>
         <View
@@ -73,8 +74,7 @@ export const ZoneList = React.createClass({
   componentWillReceiveProps(nextProps){
     let data = objectify(nextProps.data)
     this.setState({
-      data: data,
-      order: Object.keys(data)
+      data: data
     })
   },
   setRowStyle(rowData){
@@ -88,17 +88,11 @@ export const ZoneList = React.createClass({
     return style
 
   },
-  renderRow(rowData, sectionID, rowID, highlightRow){
+  renderRow(row, sectionID, rowID, highlightRow){
+    console.log(arguments)
     return (
 
-      <TouchableHighlight onPress={ () => this.props.onZoneSelect(rowData, sectionID, rowID) } underlayColor={"lightgrey"} { ...this.props.sortHandlers }>
-        <View
-          style={ this.setRowStyle(rowData) }
-          >
-          <Text style={{ flex:1 }}> { rowData.name } </Text>
-          { rowData.running && <View style={ styles.runningTextContainer } ><Animated.Text style={ [ styles.zoneRunningText, { fontSize: this.state.pulse } ] }> Zone Running </Animated.Text></View> }
-        </View>
-      </TouchableHighlight>
+      <RowComponent data={row} sectionID={sectionID} rowID={rowID} onZoneSelect={ this.props.onZoneSelect }style={ this.setRowStyle(this.props.data) }/>
 
     )
   },
@@ -117,7 +111,7 @@ export const ZoneList = React.createClass({
             })
             this.forceUpdate()
           }}
-          renderRow={ row => <RowComponent data={row} style={ this.setRowStyle(this.props.data) }/> }
+          renderRow={ this.renderRow }
           />
       </View>
     )
