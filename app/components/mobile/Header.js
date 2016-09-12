@@ -15,9 +15,7 @@ export const Header = React.createClass({
           text="Back"
           textStyle={ styles.backButtonText }
           onClick={ () => {
-            this.props.navigator.push({
-              title: 'Login'
-            })
+            this.props.navigator.pop()
           }}
           style={ styles.backButton }
           />}

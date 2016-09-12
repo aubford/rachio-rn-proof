@@ -27204,37 +27204,48 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
+	    var _this = this;
+
 	    (0, _util.lightStatusBar)();
 
-	    if ((0, _util.getItem)('rachioRnUsername')) {
-
+	    if (!_util.native && (0, _util.getItem)('rachioRnUsername')) {
 	      this.setState({
 	        password: (0, _util.getItem)('rachioRnPassword'),
 	        username: (0, _util.getItem)('rachioRnUsername')
 	      });
 	    }
+
+	    if (_util.native) {
+	      Promise.all([(0, _util.getItem)('rachioRnUsername'), (0, _util.getItem)('rachioRnPassword')]).then(function (res) {
+	        if (res[0]) {
+	          _this.setState({
+	            username: res[0],
+	            password: res[1]
+	          });
+	        }
+	      });
+	    }
 	  },
 	  login: function login() {
-	    var _this = this;
+	    var _this2 = this;
 
 	    if (this.state.password !== "" && this.state.username !== "") {
-
 	      _api.api.login(this.state.username, this.state.password).then(function (res) {
-	        if (res.username === _this.state.username) {
+	        if (res.username === _this2.state.username) {
 
 	          (0, _util.setItem)('rachioRnUsername', res.username);
-	          (0, _util.setItem)('rachioRnPassword', _this.state.password);
-	          _this.setState({ showValidation: false, password: "", username: "" });
+	          (0, _util.setItem)('rachioRnPassword', _this2.state.password);
+	          _this2.setState({ showValidation: false });
 
 	          if (_util.native) {
-	            _this.props.navigator.push({
+	            _this2.props.navigator.push({
 	              title: 'Remote'
 	            });
 	          } else {
 	            _reactRouter.browserHistory.push('/remote');
 	          }
 	        } else {
-	          _this.setState({ showValidation: true, password: "", username: "" });
+	          _this2.setState({ showValidation: true });
 	        }
 	      });
 	    }
@@ -27245,7 +27256,7 @@
 	    this.setState(update);
 	  },
 	  render: function render() {
-	    var _this2 = this;
+	    var _this3 = this;
 
 	    return _react2.default.createElement(
 	      _componentSwitch.Screen,
@@ -27262,14 +27273,14 @@
 	        _react2.default.createElement(_componentSwitch.Input, {
 	          value: this.state.username,
 	          onChange: function onChange(evt) {
-	            return _this2.handleInputChange(evt, "username");
+	            return _this3.handleInputChange(evt, "username");
 	          },
 	          placeholder: 'Username'
 	        }),
 	        _react2.default.createElement(_componentSwitch.Input, {
 	          value: this.state.password,
 	          onChange: function onChange(evt) {
-	            return _this2.handleInputChange(evt, "password");
+	            return _this3.handleInputChange(evt, "password");
 	          },
 	          placeholder: 'Password'
 	        })
@@ -27477,8 +27488,6 @@
 	});
 	exports.ios = exports.native = undefined;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	exports.stl = stl;
@@ -27525,9 +27534,8 @@
 
 	function getItem(key) {
 	  if (native) {
-	    _reactNative.AsyncStorage.getItem(key);
+	    return _reactNative.AsyncStorage.getItem(key);
 	  } else {
-	    console.log("h", typeof key === 'undefined' ? 'undefined' : _typeof(key));
 	    return localStorage.getItem(key);
 	  }
 	}
@@ -28172,26 +28180,32 @@
 	      selectedTime: 1
 	    };
 	  },
-	  setZoneStatus: function setZoneStatus() {
-	    var _this = this;
-
-	    _api.api.getEvents().then(function (res) {
-	      return res.json();
-	    }).then(function (res) {
-	      _this.setState({
-	        data: _api.apiUtil.getZoneStatus(res, _this.state.data)
-	      });
-	    });
-	  },
 	  componentDidMount: function componentDidMount() {
-	    var _this2 = this;
+	    var _this = this;
 
 	    _api.api.getDeviceInfo().then(function (res) {
 	      return res.json();
 	    }).then(function (res) {
-	      _this2.setState({ data: _api.apiUtil.initZones(res.zones) });
-	      _this2.setZoneStatus();
+	      _this.setState({ data: _api.apiUtil.initZones(res.zones) });
+	      _this.setZoneStatus();
 	    });
+
+	    this.interval = setInterval(this.setZoneStatus, 2000);
+	  },
+	  setZoneStatus: function setZoneStatus() {
+	    var _this2 = this;
+
+	    _api.api.getEvents().then(function (res) {
+	      return res.json();
+	    }).then(function (res) {
+	      var data = _api.apiUtil.getZoneStatus(res, _this2.state.data);
+	      _this2.setState({
+	        data: data
+	      });
+	    });
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    clearInterval(this.interval);
 	  },
 	  handleZoneSelect: function handleZoneSelect(rowData, sectionID, rowID) {
 	    var index = Number(rowID);
@@ -28258,7 +28272,8 @@
 	      _componentSwitch.Screen,
 	      null,
 	      _react2.default.createElement(_componentSwitch.Header, {
-	        text: 'Remote Control'
+	        text: 'Remote Control',
+	        navigator: this.props.navigator
 	      }),
 	      _react2.default.createElement(
 	        _componentSwitch.Section,

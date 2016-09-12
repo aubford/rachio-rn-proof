@@ -49,7 +49,7 @@ export const Login = React.createClass({
 
           setItem('rachioRnUsername', res.username)
           setItem('rachioRnPassword', this.state.password)
-          this.setState({ showValidation: false, password: "", username: ""})
+          this.setState({ showValidation: false})
 
           if( native ){
             this.props.navigator.push({
@@ -60,7 +60,7 @@ export const Login = React.createClass({
           }
 
         }else{
-          this.setState({ showValidation: true, password: "", username: "" })
+          this.setState({ showValidation: true})
         }
       })
     }
@@ -159,8 +159,7 @@ const styles = {
 
     ...platformSelect({
       android: {
-        flex: 1,
-        borderWidth: 0
+        flex: 1
       },
       ios: {
         flex: 1,

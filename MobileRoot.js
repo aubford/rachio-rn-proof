@@ -3,7 +3,7 @@ import { Navigator } from 'react-native';
 import { Login } from './app/containers/Login'
 import { Remote } from './app/containers/Remote'
 
-  
+
 
 export const Root = React.createClass({
 

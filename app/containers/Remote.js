@@ -8,7 +8,6 @@ import { Section } from '../components/component-switch'
 import { api, apiUtil } from '../api'
 import { native, ios } from '../util'
 
-let interval
 
 export const Remote = React.createClass({
   getInitialState(){
@@ -20,13 +19,6 @@ export const Remote = React.createClass({
     }
 
   },
-  setZoneStatus(){
-    api.getEvents().then((res) => res.json()).then((res) => {
-      this.setState({
-        data: apiUtil.getZoneStatus(res, this.state.data)
-      })
-    })
-  },
   componentDidMount(){
 
     api.getDeviceInfo().then((res) => res.json()).then((res) => {
@@ -34,11 +26,19 @@ export const Remote = React.createClass({
       this.setZoneStatus()
     })
 
-     interval = setInterval(this.setZoneStatus, 2000)
+     this.interval = setInterval(this.setZoneStatus, 2000)
 
   },
+  setZoneStatus(){
+    api.getEvents().then((res) => res.json()).then((res) => {
+      let data = apiUtil.getZoneStatus(res, this.state.data)
+      this.setState({
+        data: data
+      })
+    })
+  },
   componentWillUnmount(){
-    clearInterval(interval)
+    clearInterval(this.interval)
   },
   handleZoneSelect(rowData, sectionID, rowID){
     let index = Number(rowID)
@@ -103,8 +103,6 @@ export const Remote = React.createClass({
   render(){
     return (
       <Screen>
-
-
 
         <Header
           text="Remote Control"
